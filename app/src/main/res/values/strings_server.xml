@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_ui_title">%s (%s) %d / %d</string>
+    <string name="server_ui_title_photo">Foto</string>
+    <string name="server_ui_title_video">Video</string>
+</resources>
