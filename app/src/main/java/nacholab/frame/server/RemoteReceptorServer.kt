@@ -10,8 +10,9 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.ServerSocket
 import java.net.Socket
+import javax.inject.Inject
 
-class RemoteReceptorServer{
+class RemoteReceptorServer @Inject constructor() {
     private var serverSocket: ServerSocket? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
