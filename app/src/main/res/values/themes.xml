@@ -2,4 +2,6 @@
 <resources>
 
     <style name="Theme.NacholabFrameServer" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.NacholabFrameClient" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
