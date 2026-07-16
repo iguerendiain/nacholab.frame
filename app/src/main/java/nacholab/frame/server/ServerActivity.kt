@@ -10,20 +10,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
 import nacholab.frame.data.LoadingState
 import nacholab.frame.server.ui.MainGallery
 import nacholab.frame.server.ui.ServerAppActions
 import nacholab.frame.server.ui.ServerAppViewModel
-import nacholab.frame.theme.Black
-import nacholab.frame.theme.NacholabFrameServerTheme
-import nacholab.frame.theme.White
 import nacholab.frame.utils.BrightnessLaunchEffect
 import nacholab.frame.utils.BrightnessUtils
 import nacholab.frame.utils.FullscreenEffect
@@ -35,7 +35,7 @@ class ServerActivity : ComponentActivity() {
     private val vm: ServerAppViewModel by viewModels()
 
     @Inject
-    private lateinit var remoteReceptorServer: RemoteReceptorServer
+    lateinit var remoteReceptorServer: RemoteReceptorServer
 
     override fun onResume() {
         super.onResume()
@@ -62,7 +62,7 @@ class ServerActivity : ComponentActivity() {
             FullscreenEffect()
             BrightnessLaunchEffect(state.brightness)
 
-            NacholabFrameServerTheme {
+            MaterialTheme {
                 Box(
                     modifier = Modifier.Companion
                         .fillMaxSize()

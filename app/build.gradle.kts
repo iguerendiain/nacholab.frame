@@ -61,8 +61,10 @@ dependencies {
     implementation(libs.androidx.media3.ui.compose)
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.documentfile)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
     implementation("io.github.anilbeesetti:nextlib-media3ext:1.10.1-0.13.0")
