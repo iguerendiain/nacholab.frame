@@ -15,7 +15,7 @@
         android:largeHeap="true"
         android:theme="@style/Theme.NacholabFrameServer">
         <activity
-            android:name=".ServerActivity"
+            android:name=".server.ServerActivity"
             android:exported="true"
             android:theme="@style/Theme.NacholabFrameServer">
             <intent-filter>
