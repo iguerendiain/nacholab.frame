@@ -10,6 +10,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,9 +29,22 @@ fun PlaybackSection(
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         SectionHeader("Playback")
 
-        
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Automatically advance media",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Switch(
+                checked = state.automcaticallyAdvanceMedia,
+                onCheckedChange = { onAction(MainConfigActions.SetAutomaticallyAdvanceMedia(it)) }
+            )
+        }
 
-        OutlinedTextField(
+        if (state.automcaticallyAdvanceMedia) OutlinedTextField(
             value = state.mediaItemTime,
             onValueChange = { onAction(MainConfigActions.SetMediaItemTime(it)) },
             label = { Text("Seconds per media item") },
@@ -40,56 +54,6 @@ fun PlaybackSection(
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Reshuffle after playlist finishes",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Switch(
-                checked = state.reshuffleAfterPlaylistFinish,
-                onCheckedChange = { onAction(MainConfigActions.SetReshuffleAfterPlaylistFinish(it)) }
-            )
-        }
-
-        EnumDropdownField(
-            label = "Image scaling",
-            selected = state.imageScaling,
-            options = ServerConfig.ServerConfigScaling.entries,
-            optionLabel = { it.displayName() },
-            onSelected = { onAction(MainConfigActions.SetImageScaling(it)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        EnumDropdownField(
-            label = "Video scaling",
-            selected = state.videoScaling,
-            options = ServerConfig.ServerConfigScaling.entries,
-            optionLabel = { it.displayName() },
-            onSelected = { onAction(MainConfigActions.SetVideoScaling(it)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        EnumDropdownField(
-            label = "File sort order",
-            selected = state.sortType,
-            options = ServerConfig.ServerConfigSorting.entries,
-            optionLabel = { it.displayName() },
-            onSelected = { onAction(MainConfigActions.SetSortType(it)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        EnumDropdownField(
-            label = "Directory sort order",
-            selected = state.dirSortType,
-            options = ServerConfig.ServerConfigSorting.entries,
-            optionLabel = { it.displayName() },
-            onSelected = { onAction(MainConfigActions.SetDirSortType(it)) },
             modifier = Modifier.fillMaxWidth()
         )
     }

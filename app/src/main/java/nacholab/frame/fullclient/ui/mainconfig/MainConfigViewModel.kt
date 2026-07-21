@@ -47,6 +47,10 @@ class MainConfigViewModel @Inject constructor(
                 it.copy(reshuffleAfterPlaylistFinish = action.reshuffle)
             }
 
+            is MainConfigActions.SetAutomaticallyAdvanceMedia -> _state.update {
+                it.copy(automcaticallyAdvanceMedia = action.advance)
+            }
+
             is MainConfigActions.SetSleepTimerFrom -> _state.update {
                 it.copy(sleepTimerFrom = action.sleepTimerFrom, sleepTimerFromError = false)
             }
@@ -57,6 +61,11 @@ class MainConfigViewModel @Inject constructor(
 
             is MainConfigActions.SetImageScaling -> _state.update { it.copy(imageScaling = action.scaling) }
             is MainConfigActions.SetVideoScaling -> _state.update { it.copy(videoScaling = action.scaling) }
+
+            is MainConfigActions.SetDirectorySortingEnabled -> _state.update {
+                it.copy(directorySortEnabled = action.enabled)
+            }
+
             is MainConfigActions.SetSortType -> _state.update { it.copy(sortType = action.sortType) }
             is MainConfigActions.SetDirSortType -> _state.update { it.copy(dirSortType = action.dirSortType) }
             is MainConfigActions.SetMainUIHideType -> _state.update { it.copy(mainUIHideType = action.hideType) }

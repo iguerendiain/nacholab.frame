@@ -42,6 +42,12 @@ fun MainConfigScreenContent(
                 item { PlaybackSection(state = state, onAction = onAction) }
                 item { HorizontalDivider() }
 
+                item { SortingSection(state = state, onAction = onAction) }
+                item { HorizontalDivider() }
+
+                item { ScalingSection(state = state, onAction = onAction) }
+                item { HorizontalDivider() }
+
                 item { SleepTimerSection(state = state, onAction = onAction) }
                 item { HorizontalDivider() }
 

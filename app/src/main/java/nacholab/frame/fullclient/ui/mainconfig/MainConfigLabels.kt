@@ -13,7 +13,7 @@ fun ServerConfig.ServerConfigSorting.displayName(): String = when (this) {
     ServerConfig.ServerConfigSorting.RANDOM -> "Random"
     ServerConfig.ServerConfigSorting.DATE -> "Date"
     ServerConfig.ServerConfigSorting.NAME -> "Name"
-    ServerConfig.ServerConfigSorting.DIR -> "Directory"
+    ServerConfig.ServerConfigSorting.IGNORE -> "Ignore"
 }
 
 fun ServerConfigMainUI.ServerConfigMainUIHideType.displayName(): String = when (this) {

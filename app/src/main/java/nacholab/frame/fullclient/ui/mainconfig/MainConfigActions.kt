@@ -13,6 +13,7 @@ sealed class MainConfigActions {
     data class SetMediaItemTime(val mediaItemTime: String) : MainConfigActions()
 
     data class SetReshuffleAfterPlaylistFinish(val reshuffle: Boolean) : MainConfigActions()
+    data class SetAutomaticallyAdvanceMedia(val advance: Boolean) : MainConfigActions()
 
     data class SetSleepTimerFrom(val sleepTimerFrom: String) : MainConfigActions()
 
@@ -22,6 +23,7 @@ sealed class MainConfigActions {
 
     data class SetVideoScaling(val scaling: ServerConfig.ServerConfigScaling) : MainConfigActions()
 
+    data class SetDirectorySortingEnabled(val enabled: Boolean): MainConfigActions()
     data class SetSortType(val sortType: ServerConfig.ServerConfigSorting) : MainConfigActions()
 
     data class SetDirSortType(val dirSortType: ServerConfig.ServerConfigSorting) : MainConfigActions()

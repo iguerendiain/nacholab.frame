@@ -13,7 +13,7 @@ data class ServerConfig(
     val dirSortType: ServerConfigSorting
 ){
     enum class ServerConfigScaling { CROP, FIT }
-    enum class ServerConfigSorting { RANDOM, DATE, NAME, DIR }
+    enum class ServerConfigSorting { RANDOM, DATE, NAME, IGNORE }
 }
 
 sealed class ServerConfigDecoration(
