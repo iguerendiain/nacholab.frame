@@ -15,9 +15,15 @@ sealed class MainConfigActions {
     data class SetReshuffleAfterPlaylistFinish(val reshuffle: Boolean) : MainConfigActions()
     data class SetAutomaticallyAdvanceMedia(val advance: Boolean) : MainConfigActions()
 
-    data class SetSleepTimerFrom(val sleepTimerFrom: String) : MainConfigActions()
+    data class SetSleepTimerFromHour(val hour: Int) : MainConfigActions()
 
-    data class SetSleepTimerTo(val sleepTimerTo: String) : MainConfigActions()
+    data class SetSleepTimerFromMinute(val minute: Int) : MainConfigActions()
+
+    data class SetSleepTimerToHour(val hour: Int) : MainConfigActions()
+
+    data class SetSleepTimerToMinute(val minute: Int) : MainConfigActions()
+
+    data class SetSleepTimerAmPm(val ampm: Boolean) : MainConfigActions()
 
     data class SetImageScaling(val scaling: ServerConfig.ServerConfigScaling) : MainConfigActions()
 

@@ -51,13 +51,11 @@ class MainConfigViewModel @Inject constructor(
                 it.copy(automcaticallyAdvanceMedia = action.advance)
             }
 
-            is MainConfigActions.SetSleepTimerFrom -> _state.update {
-                it.copy(sleepTimerFrom = action.sleepTimerFrom, sleepTimerFromError = false)
-            }
-
-            is MainConfigActions.SetSleepTimerTo -> _state.update {
-                it.copy(sleepTimerTo = action.sleepTimerTo, sleepTimerToError = false)
-            }
+            is MainConfigActions.SetSleepTimerFromHour -> _state.update { it.copy(sleepTimerFromHour = action.hour) }
+            is MainConfigActions.SetSleepTimerFromMinute -> _state.update { it.copy(sleepTimerFromMinute = action.minute) }
+            is MainConfigActions.SetSleepTimerToHour -> _state.update { it.copy(sleepTimerToHour = action.hour) }
+            is MainConfigActions.SetSleepTimerToMinute -> _state.update { it.copy(sleepTimerToMinute = action.minute) }
+            is MainConfigActions.SetSleepTimerAmPm -> _state.update { it.copy(sleepTimerAmPm = action.ampm) }
 
             is MainConfigActions.SetImageScaling -> _state.update { it.copy(imageScaling = action.scaling) }
             is MainConfigActions.SetVideoScaling -> _state.update { it.copy(videoScaling = action.scaling) }
@@ -127,25 +125,13 @@ class MainConfigViewModel @Inject constructor(
     private fun saveSettings() {
         val currentState = state.value
         val mediaItemTime = currentState.mediaItemTime.toIntOrNull()
-        val sleepTimerFrom = currentState.sleepTimerFrom.toIntOrNull()
-        val sleepTimerTo = currentState.sleepTimerTo.toIntOrNull()
 
-        if (mediaItemTime == null || sleepTimerFrom == null || sleepTimerTo == null) {
-            _state.update {
-                it.copy(
-                    mediaItemTimeError = mediaItemTime == null,
-                    sleepTimerFromError = sleepTimerFrom == null,
-                    sleepTimerToError = sleepTimerTo == null
-                )
-            }
+        if (mediaItemTime == null) {
+            _state.update { it.copy(mediaItemTimeError = true) }
             return
         }
 
-        val serverConfig = currentState.toServerConfig(
-            mediaItemTime = mediaItemTime,
-            sleepTimerFrom = sleepTimerFrom,
-            sleepTimerTo = sleepTimerTo
-        )
+        val serverConfig = currentState.toServerConfig(mediaItemTime = mediaItemTime)
 
         // TODO: persist/send serverConfig once a ServerConfig repository is defined
     }
@@ -159,11 +145,9 @@ class MainConfigViewModel @Inject constructor(
 
 }
 
-private fun MainConfigState.toServerConfig(
-    mediaItemTime: Int,
-    sleepTimerFrom: Int,
-    sleepTimerTo: Int
-) = ServerConfig(
+private const val MINUTES_PER_HOUR = 60
+
+private fun MainConfigState.toServerConfig(mediaItemTime: Int) = ServerConfig(
     decorations = decorations,
     mainUI = ServerConfigMainUI(
         hideType = mainUIHideType,
@@ -171,8 +155,8 @@ private fun MainConfigState.toServerConfig(
     ),
     mediaItemTime = mediaItemTime,
     reshuffleAfterPlaylistFinish = reshuffleAfterPlaylistFinish,
-    sleepTimerFrom = sleepTimerFrom,
-    sleepTimerTo = sleepTimerTo,
+    sleepTimerFrom = sleepTimerFromHour * MINUTES_PER_HOUR + sleepTimerFromMinute,
+    sleepTimerTo = sleepTimerToHour * MINUTES_PER_HOUR + sleepTimerToMinute,
     imageScaling = imageScaling,
     videoScaling = videoScaling,
     sortType = sortType,
