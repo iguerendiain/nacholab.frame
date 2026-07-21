@@ -34,10 +34,10 @@ sealed class MainConfigActions {
 
     data class SetDirSortType(val dirSortType: ServerConfig.ServerConfigSorting) : MainConfigActions()
 
-    data class SetMainUIHideType(val hideType: String) : MainConfigActions()
+    data class SetMainUIHideTimeout(val timeout: String) : MainConfigActions()
 
-    data class SetMainUIHideTimeout(
-        val hideTimeout: ServerConfigMainUI.ServerConfigMainUIHideType
+    data class SetMainUIHideType(
+        val type: ServerConfigMainUI.ServerConfigMainUIHideType
     ) : MainConfigActions()
 
     data class SetDecorationDraftKind(val kind: DecorationDraftState.DecorationKind) : MainConfigActions()

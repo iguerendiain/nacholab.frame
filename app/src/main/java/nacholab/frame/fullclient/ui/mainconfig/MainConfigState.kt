@@ -9,7 +9,7 @@ data class MainConfigState(
     val port: Int,
     val frameName: String,
     val autoSync: Boolean,
-    val mediaItemTime: String,
+    val mediaItemTime: Int,
     val mediaItemTimeError: Boolean,
     val reshuffleAfterPlaylistFinish: Boolean,
     val automcaticallyAdvanceMedia: Boolean,
@@ -23,8 +23,9 @@ data class MainConfigState(
     val directorySortEnabled: Boolean,
     val sortType: ServerConfig.ServerConfigSorting,
     val dirSortType: ServerConfig.ServerConfigSorting,
-    val mainUIHideType: String,
-    val mainUIHideTimeout: ServerConfigMainUI.ServerConfigMainUIHideType,
+    val mainUIHideType: ServerConfigMainUI.ServerConfigMainUIHideType,
+    val mainUIHideTimeout: Int,
+    val mainUIHideTimeoutError: Boolean,
     val decorations: List<ServerConfigDecoration>,
     val decorationDraft: DecorationDraftState
 ) {
@@ -34,7 +35,7 @@ data class MainConfigState(
             port = 8047,
             frameName = "",
             autoSync = true,
-            mediaItemTime = "10",
+            mediaItemTime = 10,
             mediaItemTimeError = false,
             reshuffleAfterPlaylistFinish = false,
             automcaticallyAdvanceMedia = true,
@@ -48,10 +49,11 @@ data class MainConfigState(
             directorySortEnabled = false,
             sortType = ServerConfig.ServerConfigSorting.RANDOM,
             dirSortType = ServerConfig.ServerConfigSorting.RANDOM,
-            mainUIHideType = "",
-            mainUIHideTimeout = ServerConfigMainUI.ServerConfigMainUIHideType.DISABLED,
+            mainUIHideType = ServerConfigMainUI.ServerConfigMainUIHideType.TIMEOUT,
+            mainUIHideTimeout = 5,
             decorations = emptyList(),
-            decorationDraft = DecorationDraftState.DEFAULT
+            decorationDraft = DecorationDraftState.DEFAULT,
+            mainUIHideTimeoutError = false
         )
     }
 }

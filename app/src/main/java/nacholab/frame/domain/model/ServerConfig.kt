@@ -59,8 +59,8 @@ sealed class ServerConfigDecoration(
 }
 
 data class ServerConfigMainUI(
-    val hideType: String,
-    val hideTimeout: ServerConfigMainUIHideType,
+    val hideType: ServerConfigMainUIHideType,
+    val hideTimeout: Int,
 ){
     enum class ServerConfigMainUIHideType {
         TIMEOUT, PAGE_CHANGE, MANUAL, DISABLED

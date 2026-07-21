@@ -45,7 +45,7 @@ fun PlaybackSection(
         }
 
         if (state.automcaticallyAdvanceMedia) OutlinedTextField(
-            value = state.mediaItemTime,
+            value = state.mediaItemTime.toString(),
             onValueChange = { onAction(MainConfigActions.SetMediaItemTime(it)) },
             label = { Text("Seconds per media item") },
             isError = state.mediaItemTimeError,

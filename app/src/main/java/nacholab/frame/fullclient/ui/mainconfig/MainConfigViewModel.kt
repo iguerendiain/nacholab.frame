@@ -40,7 +40,7 @@ class MainConfigViewModel @Inject constructor(
             is MainConfigActions.SetAutoSync -> _state.update { it.copy(autoSync = action.autoSync) }
 
             is MainConfigActions.SetMediaItemTime -> _state.update {
-                it.copy(mediaItemTime = action.mediaItemTime, mediaItemTimeError = false)
+                it.copy(mediaItemTime = action.mediaItemTime.toIntOrNull()?:-1, mediaItemTimeError = false)
             }
 
             is MainConfigActions.SetReshuffleAfterPlaylistFinish -> _state.update {
@@ -66,10 +66,10 @@ class MainConfigViewModel @Inject constructor(
 
             is MainConfigActions.SetSortType -> _state.update { it.copy(sortType = action.sortType) }
             is MainConfigActions.SetDirSortType -> _state.update { it.copy(dirSortType = action.dirSortType) }
-            is MainConfigActions.SetMainUIHideType -> _state.update { it.copy(mainUIHideType = action.hideType) }
+            is MainConfigActions.SetMainUIHideType -> _state.update { it.copy(mainUIHideType = action.type) }
 
             is MainConfigActions.SetMainUIHideTimeout -> _state.update {
-                it.copy(mainUIHideTimeout = action.hideTimeout)
+                it.copy(mainUIHideTimeout = action.timeout.toIntOrNull()?:-1)
             }
 
             is MainConfigActions.SetDecorationDraftKind -> updateDraft { it.copy(kind = action.kind) }
@@ -123,17 +123,17 @@ class MainConfigViewModel @Inject constructor(
     }
 
     private fun saveSettings() {
-        val currentState = state.value
-        val mediaItemTime = currentState.mediaItemTime.toIntOrNull()
-
-        if (mediaItemTime == null) {
-            _state.update { it.copy(mediaItemTimeError = true) }
-            return
-        }
-
-        val serverConfig = currentState.toServerConfig(mediaItemTime = mediaItemTime)
-
-        // TODO: persist/send serverConfig once a ServerConfig repository is defined
+//        val currentState = state.value
+////        val mediaItemTime = currentState.mediaItemTime.toIntOrNull()
+//
+//        if (mediaItemTime == null) {
+//            _state.update { it.copy(mediaItemTimeError = true) }
+//            return
+//        }
+//
+//        val serverConfig = currentState.toServerConfig(mediaItemTime = mediaItemTime)
+//
+//        // TODO: persist/send serverConfig once a ServerConfig repository is defined
     }
 
     private fun changeServer() {
