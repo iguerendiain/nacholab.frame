@@ -1,4 +1,4 @@
-package nacholab.frame.fullclient.ui.components
+package nacholab.frame.fullclient.ui.common.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

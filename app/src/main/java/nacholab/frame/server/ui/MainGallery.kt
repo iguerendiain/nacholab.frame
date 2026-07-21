@@ -55,24 +55,16 @@ fun MainGallery(
     sleepFrom: Int?,
     sleepTo: Int?,
     ampm: Boolean,
+    currentMinute: Int,
     decorations: List<MainGalleryDecoration>,
     onAction: (ServerAppActions) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = { mediaList.size })
     val exoPlayer = buildPlayer()
     val context = LocalContext.current
-    var currentMinute by remember { mutableIntStateOf(0) }
 
     var currentVideoPosition by remember { mutableLongStateOf(0L) }
     var currentVideoDuration by remember { mutableLongStateOf(0L) }
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            val now = LocalTime.now()
-            currentMinute = now.hour * 60 + now.minute
-            delay(60_000L)
-        }
-    }
 
     SleepModeEffect(sleepFrom, sleepTo) {
         onAction(if (it) ServerAppActions.Sleep else ServerAppActions.Wakeup)
@@ -243,7 +235,7 @@ fun MainGallery(
         enter = fadeIn(),
         exit = fadeOut(),
         modifier = Modifier.fillMaxSize()
-    ) { MainGalleryDecorations(decorations, mediaItem) }
+    ) { MainGalleryDecorations(decorations, mediaItem, currentMinute) }
 
     if (sleepMode){
         Box(modifier = Modifier.fillMaxSize().background(Color.Black).clickable{ onAction(ServerAppActions.Wakeup)})

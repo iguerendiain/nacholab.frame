@@ -17,7 +17,8 @@ data class ServerAppState(
     val sleepTo: Int?,
     val sleepMode: Boolean,
     val ampm: Boolean,
-    val decorations: List<MainGalleryDecoration>
+    val minuteClock: Int,
+    val decorations: List<MainGalleryDecoration>,
 ){
     companion object{
         val DEFAULT = ServerAppState(
@@ -32,6 +33,7 @@ data class ServerAppState(
             sleepFrom = 960,
             sleepTo = 990,
             ampm = true,
+            minuteClock = -1,
             decorations = listOf(
                 MainGalleryDecoration.MediaInfo(
                     position = Position.TOP_START,

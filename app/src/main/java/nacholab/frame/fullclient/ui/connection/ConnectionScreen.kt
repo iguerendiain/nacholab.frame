@@ -20,8 +20,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collectLatest
-import nacholab.frame.fullclient.ui.components.FullClientHeader
-import nacholab.frame.fullclient.ui.util.withoutTop
+import nacholab.frame.fullclient.ui.common.components.FullClientHeader
+import nacholab.frame.utils.withoutTop
 
 @Composable
 fun ConnectionScreen(

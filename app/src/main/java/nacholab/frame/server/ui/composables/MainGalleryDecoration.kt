@@ -7,14 +7,19 @@ import nacholab.frame.data.MainGalleryDecoration
 import nacholab.frame.server.ui.composables.decorations.MainGalleryDecorationCurrentTime
 import nacholab.frame.server.ui.composables.decorations.MainGalleryDecorationMediaInfo
 import nacholab.frame.server.ui.composables.decorations.MainGalleryDecorationMessage
+import nacholab.frame.utils.TimeFormatter
 import java.text.SimpleDateFormat
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun MainGalleryDecoration(decoration: MainGalleryDecoration, currentMediaItem: GalleryItem){
+fun MainGalleryDecoration(
+    decoration: MainGalleryDecoration,
+    currentMediaItem: GalleryItem,
+    currentMinute: Int,
+){
     when (decoration){
         is MainGalleryDecoration.CurrentTime -> MainGalleryDecorationCurrentTime(
-            currentTime = SimpleDateFormat(decoration.timeFormat).format(System.currentTimeMillis()),
+            currentTime = TimeFormatter.minutesToTime(currentMinute, decoration.ampm),
             currentDate = if (decoration.showDate) SimpleDateFormat(decoration.dateFormat).format(
                 System.currentTimeMillis()
             ) else null

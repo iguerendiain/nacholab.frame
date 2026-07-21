@@ -54,6 +54,7 @@ class ServerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         vm.onAction(ServerAppActions.LoadMedia(this))
         vm.onAction(ServerAppActions.SetBrightness(BrightnessUtils.getScreenBrightness(this)))
+        vm.onAction(ServerAppActions.StartMinuteClock)
 
         enableEdgeToEdge()
         setContent {
@@ -101,6 +102,7 @@ class ServerActivity : ComponentActivity() {
                             sleepTo = state.sleepTo,
                             ampm = state.ampm,
                             decorations = state.decorations,
+                            currentMinute = state.minuteClock,
                             onAction = vm::onAction,
                         )
                     }

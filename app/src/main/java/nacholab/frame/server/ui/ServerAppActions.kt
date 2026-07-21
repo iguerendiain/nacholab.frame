@@ -14,5 +14,6 @@ sealed class ServerAppActions {
     class SetVideoPosition(val position: Float): ServerAppActions()
     object Sleep: ServerAppActions()
     object Wakeup: ServerAppActions()
+    object StartMinuteClock: ServerAppActions()
 
 }

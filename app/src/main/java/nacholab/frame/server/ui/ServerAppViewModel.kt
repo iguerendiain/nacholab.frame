@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -18,7 +19,9 @@ import nacholab.frame.data.GalleryItem
 import nacholab.frame.data.LoadingState
 import nacholab.frame.data.MediaItemRepository
 import nacholab.frame.data.SettingsRepository
+import nacholab.frame.server.ui.ServerAppActions.*
 import nacholab.frame.usecases.RequestDirToUserUseCase
+import java.time.LocalTime
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -34,18 +37,31 @@ class ServerAppViewModel @Inject constructor(
     private val _uiEventBus = MutableSharedFlow<ServerAppUIEvents>(extraBufferCapacity = 1)
     val uiEventBus: SharedFlow<ServerAppUIEvents> = _uiEventBus.asSharedFlow()
 
+
     fun onAction(action: ServerAppActions){
         when (action){
-            is ServerAppActions.LoadMedia -> loadMedia(action.activity)
-            is ServerAppActions.SetBrightness -> _state.update { it.copy(brightness = action.brightness) }
-            is ServerAppActions.SetMuted -> _state.update { it.copy(isMuted = action.isMuted) }
-            is ServerAppActions.SetPlaying -> _state.update { it.copy(isPlaying = action.isPlaying) }
-            is ServerAppActions.SetVideoPosition -> _state.update { it.copy(videoPosition = action.position) }
-            is ServerAppActions.SetVolume -> _state.update { it.copy(volume = action.volume) }
-            ServerAppActions.ToggleMuted -> onAction(ServerAppActions.SetMuted(!state.value.isMuted))
-            ServerAppActions.TogglePlaying -> onAction(ServerAppActions.SetPlaying(!state.value.isPlaying))
-            ServerAppActions.Sleep -> setSleepMode(true)
-            ServerAppActions.Wakeup -> setSleepMode(false)
+            is LoadMedia -> loadMedia(action.activity)
+            is SetBrightness -> _state.update { it.copy(brightness = action.brightness) }
+            is SetMuted -> _state.update { it.copy(isMuted = action.isMuted) }
+            is SetPlaying -> _state.update { it.copy(isPlaying = action.isPlaying) }
+            is SetVideoPosition -> _state.update { it.copy(videoPosition = action.position) }
+            is SetVolume -> _state.update { it.copy(volume = action.volume) }
+            ToggleMuted -> onAction(SetMuted(!state.value.isMuted))
+            TogglePlaying -> onAction(SetPlaying(!state.value.isPlaying))
+            Sleep -> setSleepMode(true)
+            Wakeup -> setSleepMode(false)
+            StartMinuteClock -> startMinuteClock()
+        }
+    }
+
+    private fun startMinuteClock(){
+        viewModelScope.launch {
+            while (true){
+                val now = LocalTime.now()
+                val currentMinute = now.hour * 60 + now.minute
+                _state.update { it.copy(minuteClock = currentMinute) }
+                delay(60_000L)
+            }
         }
     }
 

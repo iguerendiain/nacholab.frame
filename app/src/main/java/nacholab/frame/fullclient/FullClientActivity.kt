@@ -22,9 +22,6 @@ class FullClientActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Every screen opens with a full-bleed brand-colored header behind the status bar.
-        // That header is dark navy in light theme and light periwinkle in dark theme, i.e.
-        // the inverse of the system setting, so the status bar icon style must invert too.
         val isSystemInDarkTheme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
             Configuration.UI_MODE_NIGHT_YES
         enableEdgeToEdge(

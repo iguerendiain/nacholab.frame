@@ -16,7 +16,8 @@ import nacholab.frame.data.MainGalleryDecoration
 @Composable
 fun MainGalleryDecorations(
     decorations: List<MainGalleryDecoration>,
-    currentMediaItem: GalleryItem
+    currentMediaItem: GalleryItem,
+    currentMinute: Int,
 ){
     Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
         Row(modifier = Modifier.fillMaxSize().weight(1f)){
@@ -26,7 +27,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.TOP_START }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
@@ -34,7 +35,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.TOP_CENTER }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
@@ -42,7 +43,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.TOP_END }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
         }
         Row(modifier = Modifier.fillMaxSize().weight(1f)){
@@ -52,7 +53,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.MIDDLE_START }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
@@ -60,7 +61,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.MIDDLE_CENTER }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
@@ -68,7 +69,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.MIDDLE_END }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
         }
         Row(modifier = Modifier.fillMaxSize().weight(1f)){
@@ -78,7 +79,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.BOTTOM_START }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
@@ -86,7 +87,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.BOTTOM_CENTER }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
             Box(
                 modifier = Modifier.fillMaxHeight().weight(1f),
@@ -94,7 +95,7 @@ fun MainGalleryDecorations(
             ){
                 decorations
                     .filter { it.position == MainGalleryDecoration.Position.BOTTOM_END }
-                    .forEach { MainGalleryDecoration(it, currentMediaItem) }
+                    .forEach { MainGalleryDecoration(it, currentMediaItem, currentMinute) }
             }
         }
     }

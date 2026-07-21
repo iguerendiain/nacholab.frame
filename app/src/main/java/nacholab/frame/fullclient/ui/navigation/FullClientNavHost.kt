@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import nacholab.frame.fullclient.ui.connection.ConnectionScreen
-import nacholab.frame.fullclient.ui.mainconfig.MainConfigScreen
+import nacholab.frame.fullclient.ui.mainconfig.components.MainConfigScreen
 
 @Composable
 fun FullClientNavHost(
