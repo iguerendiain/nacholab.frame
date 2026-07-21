@@ -12,11 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nacholab.frame.domain.model.ServerConfig
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigActions
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigState
 import nacholab.frame.fullclient.ui.mainconfig.displayName
+import nacholab.frame.theme.NacholabFrameTheme
 
 @Composable
 fun PlaybackSection(
@@ -25,6 +27,8 @@ fun PlaybackSection(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         SectionHeader("Playback")
+
+        
 
         OutlinedTextField(
             value = state.mediaItemTime,
@@ -87,6 +91,17 @@ fun PlaybackSection(
             optionLabel = { it.displayName() },
             onSelected = { onAction(MainConfigActions.SetDirSortType(it)) },
             modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PlaybackSectionPreview() {
+    NacholabFrameTheme {
+        PlaybackSection(
+            state = MainConfigState.DEFAULT,
+            onAction = {}
         )
     }
 }

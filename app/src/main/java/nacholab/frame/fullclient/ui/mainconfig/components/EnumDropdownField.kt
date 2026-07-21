@@ -14,6 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import nacholab.frame.domain.model.ServerConfig
+import nacholab.frame.fullclient.ui.mainconfig.displayName
+import nacholab.frame.theme.NacholabFrameTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,5 +61,19 @@ fun <T> EnumDropdownField(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EnumDropdownFieldPreview() {
+    NacholabFrameTheme {
+        EnumDropdownField(
+            label = "Image scaling",
+            selected = ServerConfig.ServerConfigScaling.CROP,
+            options = ServerConfig.ServerConfigScaling.entries,
+            optionLabel = { it.displayName() },
+            onSelected = {}
+        )
     }
 }

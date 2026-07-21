@@ -1,5 +1,7 @@
 package nacholab.frame.server.ui.composables
 
+import android.net.Uri
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nacholab.frame.data.GalleryItem
 import nacholab.frame.data.MainGalleryDecoration
@@ -101,15 +105,34 @@ fun MainGalleryDecorations(
     }
 }
 
-//@Preview(
-//    showSystemUi = false,
-//    device = "spec:width=480dp,height=800dp,dpi=420,orientation=landscape"
-//)
-//@Composable
-//fun MainGalleryDecorationsPreview(){
-//    NacholabFrameServerTheme {
-//        Box(modifier = Modifier.fillMaxSize().background(Gray)){
-//            MainGalleryDecorations(ServerAppState.DEFAULT.decorations, Media)
-//        }
-//    }
-//}
+@Preview(
+    showSystemUi = false,
+    device = "spec:width=480dp,height=800dp,dpi=420,orientation=landscape"
+)
+@Composable
+private fun MainGalleryDecorationsPreview() {
+    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+        MainGalleryDecorations(
+            decorations = listOf(
+                MainGalleryDecoration.CurrentTime(
+                    position = MainGalleryDecoration.Position.TOP_END,
+                    timeout = null,
+                    ampm = true,
+                    showDate = true,
+                    timeFormat = "h:mm a",
+                    dateFormat = "EEEE, MMMM d"
+                ),
+                MainGalleryDecoration.Message(
+                    position = MainGalleryDecoration.Position.BOTTOM_CENTER,
+                    timeout = null,
+                    message = "Welcome home!"
+                )
+            ),
+            currentMediaItem = GalleryItem.GalleryItemImage(
+                uri = Uri.parse("content://sample/zaraza.jpg"),
+                isRemote = false
+            ),
+            currentMinute = 934
+        )
+    }
+}

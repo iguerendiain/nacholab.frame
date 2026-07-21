@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 
@@ -30,4 +31,10 @@ fun GalleryItemImageComposable(uri: Uri){
             contentScale = ContentScale.Crop
         )
     }
+}
+
+@Preview
+@Composable
+private fun GalleryItemImageComposablePreview() {
+    GalleryItemImageComposable(uri = Uri.parse("content://sample/zaraza.jpg"))
 }

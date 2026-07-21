@@ -9,7 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nacholab.frame.theme.NacholabFrameTheme
 
 /**
  * Draws full-bleed behind the status bar: the [Surface] background is not inset, only the
@@ -45,5 +47,16 @@ fun FullClientHeader(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FullClientHeaderPreview() {
+    NacholabFrameTheme {
+        FullClientHeader(
+            title = "Connect to server",
+            subtitle = "Enter the IP address and port of the device running the Nacholab Frame server."
+        )
     }
 }

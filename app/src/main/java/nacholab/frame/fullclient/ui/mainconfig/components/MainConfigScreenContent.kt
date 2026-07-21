@@ -10,10 +10,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nacholab.frame.fullclient.ui.common.components.FullClientHeader
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigActions
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigState
+import nacholab.frame.theme.NacholabFrameTheme
 import nacholab.frame.utils.withoutTop
 
 @Composable
@@ -34,7 +36,7 @@ fun MainConfigScreenContent(
                 contentPadding = PaddingValues(24.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                item { ConnectionSection(state = state, onAction = onAction) }
+                item { ConnectionSection(state.host, state.port) }
                 item { HorizontalDivider() }
 
                 item { PlaybackSection(state = state, onAction = onAction) }
@@ -52,5 +54,16 @@ fun MainConfigScreenContent(
                 item { ActionButtonsSection(onAction = onAction) }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MainConfigScreenContentPreview() {
+    NacholabFrameTheme {
+        MainConfigScreenContent(
+            state = MainConfigState.DEFAULT,
+            onAction = {}
+        )
     }
 }

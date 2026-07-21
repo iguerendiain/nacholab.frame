@@ -2,6 +2,7 @@ package nacholab.frame.server.ui
 
 import android.content.Context
 import android.media.AudioManager
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.media3.common.C
 import androidx.media3.ui.compose.ContentFrame
 import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
@@ -240,4 +242,32 @@ fun MainGallery(
     if (sleepMode){
         Box(modifier = Modifier.fillMaxSize().background(Color.Black).clickable{ onAction(ServerAppActions.Wakeup)})
     }
+}
+
+@Preview(
+    showSystemUi = false,
+    device = "spec:width=480dp,height=800dp,dpi=420,orientation=landscape"
+)
+@Composable
+private fun MainGalleryPreview() {
+    MainGallery(
+        mediaList = listOf(
+            GalleryItem.GalleryItemImage(
+                uri = Uri.parse("content://sample/zaraza.jpg"),
+                isRemote = false
+            )
+        ),
+        imageTimeout = 3,
+        currentBrightness = 1f,
+        isPlaying = true,
+        isMuted = false,
+        currentVolume = .6f,
+        sleepMode = false,
+        sleepFrom = null,
+        sleepTo = null,
+        ampm = true,
+        currentMinute = 934,
+        decorations = emptyList(),
+        onAction = {}
+    )
 }

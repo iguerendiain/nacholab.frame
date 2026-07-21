@@ -1,5 +1,6 @@
 package nacholab.frame.server.ui.composables
 
+import android.net.Uri
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.ExoPlayer
 import nacholab.frame.data.GalleryItem
+import nacholab.frame.utils.buildPlayer
 
 @Composable
 fun MainGalleryPager(
@@ -59,4 +63,23 @@ fun MainGalleryPager(
             }
         }
     }
+}
+
+@Preview(
+    showSystemUi = false,
+    device = "spec:width=480dp,height=800dp,dpi=420,orientation=landscape"
+)
+@Composable
+private fun MainGalleryPagerPreview() {
+    MainGalleryPager(
+        pagerState = rememberPagerState(pageCount = { 1 }),
+        mediaList = listOf(
+            GalleryItem.GalleryItemImage(
+                uri = Uri.parse("content://sample/zaraza.jpg"),
+                isRemote = false
+            )
+        ),
+        exoPlayer = buildPlayer(),
+        onTap = {}
+    )
 }

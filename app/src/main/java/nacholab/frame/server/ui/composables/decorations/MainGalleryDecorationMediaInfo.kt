@@ -1,14 +1,19 @@
 package nacholab.frame.server.ui.composables.decorations
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import nacholab.frame.data.GalleryItem
 import nacholab.frame.utils.MetadataToolsTools
@@ -87,5 +92,18 @@ fun MainGalleryDecorationMediaInfo(
                 )
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MainGalleryDecorationMediaInfoPreview() {
+    Box(modifier = Modifier.background(Color.Gray)) {
+        MainGalleryDecorationMediaInfo(
+            mediaItem = GalleryItem.GalleryItemImage(
+                uri = Uri.parse("content://sample/zaraza.jpg"),
+                isRemote = false
+            )
+        )
     }
 }

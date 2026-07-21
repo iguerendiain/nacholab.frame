@@ -9,8 +9,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigActions
+import nacholab.frame.theme.NacholabFrameTheme
 
 @Composable
 fun ActionButtonsSection(onAction: (MainConfigActions) -> Unit) {
@@ -30,5 +32,13 @@ fun ActionButtonsSection(onAction: (MainConfigActions) -> Unit) {
         ) {
             Text("Change server")
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ActionButtonsSectionPreview() {
+    NacholabFrameTheme {
+        ActionButtonsSection(onAction = {})
     }
 }

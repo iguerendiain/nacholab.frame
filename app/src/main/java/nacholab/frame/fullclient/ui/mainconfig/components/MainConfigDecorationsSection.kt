@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nacholab.frame.domain.model.ServerConfigDecoration
 import nacholab.frame.fullclient.ui.mainconfig.DecorationDraftState
@@ -29,6 +30,7 @@ import nacholab.frame.fullclient.ui.mainconfig.MainConfigActions
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigState
 import nacholab.frame.fullclient.ui.mainconfig.displayName
 import nacholab.frame.fullclient.ui.mainconfig.summary
+import nacholab.frame.theme.NacholabFrameTheme
 
 fun LazyListScope.decorationsSection(
     state: MainConfigState,
@@ -79,6 +81,21 @@ private fun DecorationRow(
         IconButton(onClick = onRemove) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove decoration")
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DecorationRowPreview() {
+    NacholabFrameTheme {
+        DecorationRow(
+            decoration = ServerConfigDecoration.Message(
+                position = ServerConfigDecoration.ServerConfigDecorationPosition.TC,
+                timeout = 5,
+                message = "Welcome home!"
+            ),
+            onRemove = {}
+        )
     }
 }
 
@@ -144,6 +161,17 @@ private fun DecorationDraftForm(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun DecorationDraftFormPreview() {
+    NacholabFrameTheme {
+        DecorationDraftForm(
+            draft = DecorationDraftState.DEFAULT,
+            onAction = {}
+        )
+    }
+}
+
 @Composable
 private fun CurrentDateTimeDraftFields(
     draft: DecorationDraftState,
@@ -188,6 +216,19 @@ private fun CurrentDateTimeDraftFields(
     )
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun CurrentDateTimeDraftFieldsPreview() {
+    NacholabFrameTheme {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            CurrentDateTimeDraftFields(
+                draft = DecorationDraftState.DEFAULT.copy(kind = DecorationDraftState.DecorationKind.CURRENT_DATE_TIME),
+                onAction = {}
+            )
+        }
+    }
+}
+
 @Composable
 private fun MessageDraftFields(
     draft: DecorationDraftState,
@@ -203,6 +244,20 @@ private fun MessageDraftFields(
         },
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MessageDraftFieldsPreview() {
+    NacholabFrameTheme {
+        MessageDraftFields(
+            draft = DecorationDraftState.DEFAULT.copy(
+                kind = DecorationDraftState.DecorationKind.MESSAGE,
+                message = "Welcome home!"
+            ),
+            onAction = {}
+        )
+    }
 }
 
 @Composable
@@ -225,4 +280,17 @@ private fun MediaInfoDraftFields(
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MediaInfoDraftFieldsPreview() {
+    NacholabFrameTheme {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            MediaInfoDraftFields(
+                draft = DecorationDraftState.DEFAULT.copy(kind = DecorationDraftState.DecorationKind.MEDIA_INFO),
+                onAction = {}
+            )
+        }
+    }
 }

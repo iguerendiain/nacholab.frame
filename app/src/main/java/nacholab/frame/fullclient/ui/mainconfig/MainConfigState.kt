@@ -6,7 +6,7 @@ import nacholab.frame.domain.model.ServerConfigMainUI
 
 data class MainConfigState(
     val host: String,
-    val port: Int?,
+    val port: Int,
     val frameName: String,
     val autoSync: Boolean,
     val mediaItemTime: String,
@@ -28,7 +28,7 @@ data class MainConfigState(
     companion object {
         val DEFAULT = MainConfigState(
             host = "",
-            port = null,
+            port = 8047,
             frameName = "",
             autoSync = true,
             mediaItemTime = "10",

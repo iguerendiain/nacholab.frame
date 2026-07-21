@@ -31,7 +31,7 @@ class MainConfigViewModel @Inject constructor(
 
     init {
         val config = getConnectionConfigUseCase()
-        _state.update { it.copy(host = config?.host.orEmpty(), port = config?.port) }
+        _state.update { it.copy(host = config?.host.orEmpty(), port = config?.port?:state.value.port) }
     }
 
     fun onAction(action: MainConfigActions) {

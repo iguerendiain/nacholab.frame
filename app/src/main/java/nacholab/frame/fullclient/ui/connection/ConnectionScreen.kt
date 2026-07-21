@@ -17,10 +17,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import nacholab.frame.fullclient.ui.common.components.FullClientHeader
+import nacholab.frame.theme.NacholabFrameTheme
 import nacholab.frame.utils.withoutTop
 
 @Composable
@@ -100,5 +102,16 @@ private fun ConnectionScreenContent(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ConnectionScreenContentPreview() {
+    NacholabFrameTheme {
+        ConnectionScreenContent(
+            state = ConnectionState.DEFAULT,
+            onAction = {}
+        )
     }
 }

@@ -9,9 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigActions
 import nacholab.frame.fullclient.ui.mainconfig.MainConfigState
+import nacholab.frame.theme.NacholabFrameTheme
 
 @Composable
 fun SleepTimerSection(
@@ -45,6 +47,17 @@ fun SleepTimerSection(
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SleepTimerSectionPreview() {
+    NacholabFrameTheme {
+        SleepTimerSection(
+            state = MainConfigState.DEFAULT,
+            onAction = {}
         )
     }
 }

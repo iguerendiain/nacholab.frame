@@ -11,8 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.ExoPlayer
+import nacholab.frame.utils.buildPlayer
 
 @Composable
 fun GalleryItemVideoComposable(
@@ -32,4 +34,13 @@ fun GalleryItemVideoComposable(
 
         if (!isVisible) CircularProgressIndicator(modifier = Modifier.size(72.dp), color = White)
     }
+}
+
+@Preview
+@Composable
+private fun GalleryItemVideoComposablePreview() {
+    GalleryItemVideoComposable(
+        exoPlayer = buildPlayer(),
+        isVisible = false
+    )
 }
