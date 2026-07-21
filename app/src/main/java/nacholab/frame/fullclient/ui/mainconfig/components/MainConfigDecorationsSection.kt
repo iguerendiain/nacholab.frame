@@ -2,7 +2,9 @@ package nacholab.frame.fullclient.ui.mainconfig.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
@@ -10,19 +12,26 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import nacholab.frame.domain.model.ServerConfigDecoration
 import nacholab.frame.fullclient.ui.mainconfig.DecorationDraftState
@@ -56,9 +65,108 @@ fun LazyListScope.decorationsSection(
     }
 
     item {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = "Tap a position to add a decoration",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            DecorationPositionGrid(
+                onPositionSelected = { onAction(MainConfigActions.OpenAddDecorationSheet(it)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+
+    if (state.isAddDecorationSheetVisible) {
+        item {
+            AddDecorationBottomSheet(
+                draft = state.decorationDraft,
+                onAction = onAction,
+                onDismissRequest = { onAction(MainConfigActions.DismissAddDecorationSheet) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun DecorationPositionGrid(
+    onPositionSelected: (ServerConfigDecoration.ServerConfigDecorationPosition) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        ServerConfigDecoration.ServerConfigDecorationPosition.entries.chunked(3).forEach { row ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                row.forEach { position ->
+                    OutlinedButton(
+                        onClick = { onPositionSelected(position) },
+                        shape = MaterialTheme.shapes.small,
+                        contentPadding = PaddingValues(4.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f)
+                    ) {
+                        Text(
+                            text = position.displayName(),
+                            style = MaterialTheme.typography.labelSmall,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DecorationPositionGridPreview() {
+    NacholabFrameTheme {
+        DecorationPositionGrid(onPositionSelected = {})
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AddDecorationBottomSheet(
+    draft: DecorationDraftState,
+    onAction: (MainConfigActions) -> Unit,
+    onDismissRequest: () -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismissRequest,
+        sheetState = SheetState(
+            initialValue = SheetValue.Expanded,
+            skipPartiallyExpanded = true,
+            density = LocalDensity.current,
+        )
+    ) {
         DecorationDraftForm(
-            draft = state.decorationDraft,
-            onAction = onAction
+            draft = draft,
+            onAction = onAction,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 24.dp)
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AddDecorationBottomSheetPreview() {
+    NacholabFrameTheme {
+        AddDecorationBottomSheet(
+            draft = DecorationDraftState.DEFAULT,
+            onAction = {},
+            onDismissRequest = {}
         )
     }
 }
@@ -102,33 +210,21 @@ private fun DecorationRowPreview() {
 @Composable
 private fun DecorationDraftForm(
     draft: DecorationDraftState,
-    onAction: (MainConfigActions) -> Unit
+    onAction: (MainConfigActions) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp)
+        modifier = modifier
     ) {
-        HorizontalDivider()
+        Text(text = "Add decoration", style = MaterialTheme.typography.titleLarge)
 
-        Text(text = "Add decoration", style = MaterialTheme.typography.bodyLarge)
-
-        EnumDropdownField(
+        CapsuleSelector(
             label = "Type",
             selected = draft.kind,
             options = DecorationDraftState.DecorationKind.entries,
             optionLabel = { it.displayName() },
             onSelected = { onAction(MainConfigActions.SetDecorationDraftKind(it)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        EnumDropdownField(
-            label = "Position",
-            selected = draft.position,
-            options = ServerConfigDecoration.ServerConfigDecorationPosition.entries,
-            optionLabel = { it.displayName() },
-            onSelected = { onAction(MainConfigActions.SetDecorationDraftPosition(it)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -151,7 +247,16 @@ private fun DecorationDraftForm(
             DecorationDraftState.DecorationKind.MEDIA_INFO -> MediaInfoDraftFields(draft, onAction)
         }
 
-        OutlinedButton(
+        EnumDropdownField(
+            label = "Position",
+            selected = draft.position,
+            options = ServerConfigDecoration.ServerConfigDecorationPosition.entries,
+            optionLabel = { it.displayName() },
+            onSelected = { onAction(MainConfigActions.SetDecorationDraftPosition(it)) },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Button(
             onClick = { onAction(MainConfigActions.AddDecoration) },
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()

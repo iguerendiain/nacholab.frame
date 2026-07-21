@@ -88,6 +88,15 @@ class MainConfigViewModel @Inject constructor(
             is MainConfigActions.SetDecorationDraftTimeFormat -> updateDraft { it.copy(timeFormat = action.timeFormat) }
             is MainConfigActions.SetDecorationDraftDateFormat -> updateDraft { it.copy(dateFormat = action.dateFormat) }
 
+            is MainConfigActions.OpenAddDecorationSheet -> _state.update {
+                it.copy(
+                    isAddDecorationSheetVisible = true,
+                    decorationDraft = it.decorationDraft.copy(position = action.position)
+                )
+            }
+
+            MainConfigActions.DismissAddDecorationSheet -> _state.update { it.copy(isAddDecorationSheetVisible = false) }
+
             MainConfigActions.AddDecoration -> addDecoration()
             is MainConfigActions.RemoveDecoration -> removeDecoration(action.index)
 
@@ -113,7 +122,8 @@ class MainConfigViewModel @Inject constructor(
         _state.update {
             it.copy(
                 decorations = it.decorations + draft.toServerConfigDecoration(timeout),
-                decorationDraft = DecorationDraftState.DEFAULT.copy(position = draft.position)
+                decorationDraft = DecorationDraftState.DEFAULT.copy(position = draft.position),
+                isAddDecorationSheetVisible = false
             )
         }
     }

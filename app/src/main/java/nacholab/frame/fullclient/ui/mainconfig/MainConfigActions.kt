@@ -58,6 +58,12 @@ sealed class MainConfigActions {
 
     data class SetDecorationDraftDateFormat(val dateFormat: String) : MainConfigActions()
 
+    data class OpenAddDecorationSheet(
+        val position: ServerConfigDecoration.ServerConfigDecorationPosition
+    ) : MainConfigActions()
+
+    object DismissAddDecorationSheet : MainConfigActions()
+
     object AddDecoration : MainConfigActions()
 
     data class RemoveDecoration(val index: Int) : MainConfigActions()

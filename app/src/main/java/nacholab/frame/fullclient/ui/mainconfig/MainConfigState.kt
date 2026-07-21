@@ -27,7 +27,8 @@ data class MainConfigState(
     val mainUIHideTimeout: Int,
     val mainUIHideTimeoutError: Boolean,
     val decorations: List<ServerConfigDecoration>,
-    val decorationDraft: DecorationDraftState
+    val decorationDraft: DecorationDraftState,
+    val isAddDecorationSheetVisible: Boolean
 ) {
     companion object {
         val DEFAULT = MainConfigState(
@@ -53,7 +54,8 @@ data class MainConfigState(
             mainUIHideTimeout = 5,
             decorations = emptyList(),
             decorationDraft = DecorationDraftState.DEFAULT,
-            mainUIHideTimeoutError = false
+            mainUIHideTimeoutError = false,
+            isAddDecorationSheetVisible = false
         )
     }
 }
