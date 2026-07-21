@@ -21,6 +21,18 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "app"
+    productFlavors {
+        create("server") {
+            dimension = "app"
+            applicationId = "nacholab.frame.server"
+        }
+        create("fullClient") {
+            dimension = "app"
+            applicationId = "nacholab.frame.client"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
