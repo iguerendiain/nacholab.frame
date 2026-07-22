@@ -1,6 +1,7 @@
-package nacholab.frame.data
+package nacholab.frame.domain.repository
 
 import androidx.documentfile.provider.DocumentFile
+import nacholab.frame.data.GalleryItem
 
 class MediaItemRepository {
 

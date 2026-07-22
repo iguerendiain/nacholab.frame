@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-object MetadataToolsTools {
+object MetadataTools {
 
     data class FileMetaData(
         val date: Date?,

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import nacholab.frame.data.GalleryItem
-import nacholab.frame.utils.MetadataToolsTools
+import nacholab.frame.utils.MetadataTools
 import java.text.SimpleDateFormat
 
 @SuppressLint("SimpleDateFormat")
@@ -29,16 +29,16 @@ fun MainGalleryDecorationMediaInfo(
     }else ""
 
     val type: String
-    val data: MetadataToolsTools.FileMetaData?
+    val data: MetadataTools.FileMetaData?
 
     when (mediaItem){
         is GalleryItem.GalleryItemImage -> {
             type = "Foto"
-            data = MetadataToolsTools.extractImageExifData(mediaItem.uri)
+            data = MetadataTools.extractImageExifData(mediaItem.uri)
         }
         is GalleryItem.GalleryItemVideo -> {
             type = "Video"
-            data = MetadataToolsTools.extractVideoMetadata(mediaItem.uri)
+            data = MetadataTools.extractVideoMetadata(mediaItem.uri)
         }
     }
 

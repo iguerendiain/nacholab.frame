@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import nacholab.frame.data.GalleryItem
 import nacholab.frame.data.LoadingState
-import nacholab.frame.data.MediaItemRepository
-import nacholab.frame.data.SettingsRepository
+import nacholab.frame.domain.repository.MediaItemRepository
+import nacholab.frame.domain.repository.SettingsRepository
 import nacholab.frame.domain.usecase.SaveServerConfigUseCase
 import nacholab.frame.server.ui.ServerAppActions.*
 import nacholab.frame.usecases.RequestDirToUserUseCase

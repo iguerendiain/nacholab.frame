@@ -8,8 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import nacholab.frame.data.MediaItemRepository
-import nacholab.frame.data.SettingsRepository
+import nacholab.frame.domain.repository.MediaItemRepository
+import nacholab.frame.domain.repository.SettingsRepository
 import nacholab.frame.data.repository.ServerConfigRepositoryImpl
 import nacholab.frame.domain.repository.ServerConfigRepository
 import javax.inject.Singleton

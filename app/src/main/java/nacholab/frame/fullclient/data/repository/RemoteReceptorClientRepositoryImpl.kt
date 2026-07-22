@@ -2,7 +2,7 @@ package nacholab.frame.fullclient.data.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import nacholab.frame.data.model.toJson
+import nacholab.frame.data.serialization.toJson
 import nacholab.frame.domain.model.ServerConfig
 import nacholab.frame.fullclient.domain.repository.RemoteReceptorClientRepository
 import java.net.InetSocketAddress

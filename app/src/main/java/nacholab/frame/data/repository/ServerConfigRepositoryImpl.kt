@@ -3,8 +3,8 @@ package nacholab.frame.data.repository
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import kotlinx.serialization.SerializationException
-import nacholab.frame.data.model.toJson
-import nacholab.frame.data.model.toServerConfig
+import nacholab.frame.data.serialization.toJson
+import nacholab.frame.data.serialization.toServerConfig
 import nacholab.frame.domain.model.ServerConfig
 import nacholab.frame.domain.repository.ServerConfigRepository
 import javax.inject.Inject

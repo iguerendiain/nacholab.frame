@@ -1,4 +1,4 @@
-package nacholab.frame.data
+package nacholab.frame.domain.repository
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

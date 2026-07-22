@@ -7,7 +7,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
-import nacholab.frame.data.model.toServerConfig
+import nacholab.frame.data.serialization.toServerConfig
 import nacholab.frame.domain.model.ServerConfig
 import java.io.BufferedReader
 import java.io.InputStreamReader
