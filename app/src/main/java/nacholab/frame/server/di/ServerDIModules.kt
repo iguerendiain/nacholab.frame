@@ -11,7 +11,9 @@ import dagger.hilt.components.SingletonComponent
 import nacholab.frame.server.data.repository.MediaItemRepositoryFS
 import nacholab.frame.server.data.repository.ServerConfigRepositorySP
 import nacholab.frame.server.data.repository.SettingsRepositorySP
+import nacholab.frame.server.domain.repository.MediaItemRepository
 import nacholab.frame.server.domain.repository.ServerConfigRepository
+import nacholab.frame.server.domain.repository.SettingsRepository
 import javax.inject.Singleton
 
 @Module
@@ -19,10 +21,11 @@ import javax.inject.Singleton
 class ServerRespositoryProviders{
 
     @Provides
-    fun providesSettingsRepository(sp: SharedPreferences) = SettingsRepositorySP(sp)
+    fun providesSettingsRepository(sp: SharedPreferences): SettingsRepository = SettingsRepositorySP(sp)
 
     @Provides
-    fun providesMediaItemsRepository(@ApplicationContext context: Context) = MediaItemRepositoryFS(context)
+    fun providesMediaItemsRepository(@ApplicationContext context: Context): MediaItemRepository =
+        MediaItemRepositoryFS(context)
 
 }
 
