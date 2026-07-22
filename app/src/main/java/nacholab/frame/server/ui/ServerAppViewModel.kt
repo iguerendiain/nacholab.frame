@@ -19,6 +19,7 @@ import nacholab.frame.data.GalleryItem
 import nacholab.frame.data.LoadingState
 import nacholab.frame.data.MediaItemRepository
 import nacholab.frame.data.SettingsRepository
+import nacholab.frame.domain.usecase.SaveServerConfigUseCase
 import nacholab.frame.server.ui.ServerAppActions.*
 import nacholab.frame.usecases.RequestDirToUserUseCase
 import java.time.LocalTime
@@ -29,6 +30,7 @@ import kotlin.random.Random
 class ServerAppViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val mediaItemRepository: MediaItemRepository,
+    private val saveServerConfigUseCase: SaveServerConfigUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ServerAppState.DEFAULT)
@@ -51,6 +53,7 @@ class ServerAppViewModel @Inject constructor(
             Sleep -> setSleepMode(true)
             Wakeup -> setSleepMode(false)
             StartMinuteClock -> startMinuteClock()
+            is ReceiveServerConfig -> saveServerConfigUseCase(action.config)
         }
     }
 

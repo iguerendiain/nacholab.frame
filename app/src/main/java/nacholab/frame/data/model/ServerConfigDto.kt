@@ -2,9 +2,24 @@ package nacholab.frame.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import nacholab.frame.domain.model.ServerConfig
 import nacholab.frame.domain.model.ServerConfigDecoration
 import nacholab.frame.domain.model.ServerConfigMainUI
+
+private val ServerConfigJson = Json { ignoreUnknownKeys = true }
+
+/**
+ * Single source of truth for [ServerConfig]'s wire/storage representation, shared by local
+ * persistence ([nacholab.frame.data.repository.ServerConfigRepositoryImpl]) and network transport
+ * (the fullClient -> server socket exchange), so both always agree on the same JSON shape.
+ */
+fun ServerConfig.toJson(): String = ServerConfigJson.encodeToString(toDto())
+
+/** @throws kotlinx.serialization.SerializationException if [this] isn't a valid [ServerConfigDto]. */
+fun String.toServerConfig(): ServerConfig = ServerConfigJson.decodeFromString<ServerConfigDto>(this).toDomain()
 
 @Serializable
 data class ServerConfigDto(

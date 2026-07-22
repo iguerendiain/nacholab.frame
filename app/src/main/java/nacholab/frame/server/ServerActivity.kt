@@ -40,8 +40,8 @@ class ServerActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         remoteReceptorServer.startServer()
-        remoteReceptorServer.callback = { command ->
-
+        remoteReceptorServer.onServerConfigReceived = { config ->
+            vm.onAction(ServerAppActions.ReceiveServerConfig(config))
         }
     }
 

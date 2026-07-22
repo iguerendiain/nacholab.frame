@@ -1,6 +1,7 @@
 package nacholab.frame.server.ui
 
 import androidx.activity.ComponentActivity
+import nacholab.frame.domain.model.ServerConfig
 
 sealed class ServerAppActions {
 
@@ -15,5 +16,6 @@ sealed class ServerAppActions {
     object Sleep: ServerAppActions()
     object Wakeup: ServerAppActions()
     object StartMinuteClock: ServerAppActions()
+    class ReceiveServerConfig(val config: ServerConfig): ServerAppActions()
 
 }
