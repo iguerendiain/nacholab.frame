@@ -133,17 +133,7 @@ class MainConfigViewModel @Inject constructor(
     }
 
     private fun saveSettings() {
-//        val currentState = state.value
-////        val mediaItemTime = currentState.mediaItemTime.toIntOrNull()
-//
-//        if (mediaItemTime == null) {
-//            _state.update { it.copy(mediaItemTimeError = true) }
-//            return
-//        }
-//
-//        val serverConfig = currentState.toServerConfig(mediaItemTime = mediaItemTime)
-//
-//        // TODO: persist/send serverConfig once a ServerConfig repository is defined
+        val serverConfig = MainConfigMapper.buildFrom(state.value)
     }
 
     private fun changeServer() {
