@@ -1,7 +1,7 @@
-package nacholab.frame.domain.usecase
+package nacholab.frame.server.domain.usecase
 
 import nacholab.frame.domain.model.ServerConfig
-import nacholab.frame.domain.repository.ServerConfigRepository
+import nacholab.frame.server.domain.repository.ServerConfigRepository
 import javax.inject.Inject
 
 class SaveServerConfigUseCase @Inject constructor(

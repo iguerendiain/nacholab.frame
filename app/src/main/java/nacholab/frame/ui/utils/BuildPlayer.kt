@@ -1,4 +1,4 @@
-package nacholab.frame.utils
+package nacholab.frame.ui.utils
 
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
@@ -9,9 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
-import io.github.anilbeesetti.nextlib.media3ext.ffdecoder.NextRenderersFactory
 
 @OptIn(UnstableApi::class)
 @Composable

@@ -1,4 +1,4 @@
-package nacholab.frame.utils
+package nacholab.frame.ui.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity

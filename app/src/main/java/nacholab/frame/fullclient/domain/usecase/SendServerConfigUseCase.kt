@@ -1,12 +1,12 @@
 package nacholab.frame.fullclient.domain.usecase
 
 import nacholab.frame.domain.model.ServerConfig
-import nacholab.frame.fullclient.domain.repository.RemoteReceptorClientRepository
+import nacholab.frame.fullclient.domain.repository.RemoteControlClientRepository
 import javax.inject.Inject
 
 class SendServerConfigUseCase @Inject constructor(
     private val getConnectionConfigUseCase: GetConnectionConfigUseCase,
-    private val remoteReceptorClientRepository: RemoteReceptorClientRepository
+    private val remoteReceptorClientRepository: RemoteControlClientRepository
 ) {
     suspend operator fun invoke(config: ServerConfig): Result<Unit> {
         val connectionConfig = getConnectionConfigUseCase()

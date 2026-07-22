@@ -15,7 +15,7 @@ import java.net.ServerSocket
 import java.net.Socket
 import javax.inject.Inject
 
-class RemoteReceptorServer @Inject constructor() {
+class RemoteControlServer @Inject constructor() {
     private var serverSocket: ServerSocket? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 

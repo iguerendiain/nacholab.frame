@@ -1,4 +1,4 @@
-package nacholab.frame.data
+package nacholab.frame.server.domain.model
 
 import android.net.Uri
 

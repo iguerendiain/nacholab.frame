@@ -1,4 +1,4 @@
-package nacholab.frame.data
+package nacholab.frame.ui.model
 
 sealed class LoadingState {
 

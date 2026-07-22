@@ -1,4 +1,4 @@
-package nacholab.frame.domain.repository
+package nacholab.frame.server.domain.repository
 
 import nacholab.frame.domain.model.ServerConfig
 

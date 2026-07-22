@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import kotlinx.coroutines.delay
-import nacholab.frame.data.GalleryItem
+import nacholab.frame.server.domain.model.GalleryItem
 
 @Composable
 fun NextPageAfterTimeout(

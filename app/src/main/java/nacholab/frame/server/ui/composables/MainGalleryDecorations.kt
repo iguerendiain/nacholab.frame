@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import nacholab.frame.data.GalleryItem
-import nacholab.frame.data.MainGalleryDecoration
+import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.server.ui.models.MainGalleryDecoration
 
 @Composable
 fun MainGalleryDecorations(

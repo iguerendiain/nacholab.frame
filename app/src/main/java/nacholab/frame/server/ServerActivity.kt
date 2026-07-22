@@ -20,13 +20,13 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
-import nacholab.frame.data.LoadingState
+import nacholab.frame.ui.model.LoadingState
 import nacholab.frame.server.ui.MainGallery
 import nacholab.frame.server.ui.ServerAppActions
 import nacholab.frame.server.ui.ServerAppViewModel
-import nacholab.frame.utils.BrightnessLaunchEffect
-import nacholab.frame.utils.BrightnessUtils
-import nacholab.frame.utils.FullscreenEffect
+import nacholab.frame.ui.utils.BrightnessLaunchEffect
+import nacholab.frame.ui.utils.BrightnessUtils
+import nacholab.frame.ui.utils.FullscreenEffect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,18 +35,18 @@ class ServerActivity : ComponentActivity() {
     private val vm: ServerAppViewModel by viewModels()
 
     @Inject
-    lateinit var remoteReceptorServer: RemoteReceptorServer
+    lateinit var remoteControlServer: RemoteControlServer
 
     override fun onResume() {
         super.onResume()
-        remoteReceptorServer.startServer()
-        remoteReceptorServer.onServerConfigReceived = { config ->
+        remoteControlServer.startServer()
+        remoteControlServer.onServerConfigReceived = { config ->
             vm.onAction(ServerAppActions.ReceiveServerConfig(config))
         }
     }
 
     override fun onPause() {
-        remoteReceptorServer.stopServer()
+        remoteControlServer.stopServer()
         super.onPause()
     }
 

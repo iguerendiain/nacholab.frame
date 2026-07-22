@@ -1,6 +1,4 @@
-package nacholab.frame.data
-
-import java.time.format.FormatStyle
+package nacholab.frame.server.ui.models
 
 sealed class MainGalleryDecoration(
     open val position: Position,

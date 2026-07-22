@@ -4,12 +4,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import nacholab.frame.data.serialization.toJson
 import nacholab.frame.domain.model.ServerConfig
-import nacholab.frame.fullclient.domain.repository.RemoteReceptorClientRepository
+import nacholab.frame.fullclient.domain.repository.RemoteControlClientRepository
 import java.net.InetSocketAddress
 import java.net.Socket
 import javax.inject.Inject
 
-class RemoteReceptorClientRepositoryImpl @Inject constructor() : RemoteReceptorClientRepository {
+class RemoteControlClientRepositorySocket @Inject constructor() : RemoteControlClientRepository {
 
     companion object {
         private const val CONNECT_TIMEOUT_MILLIS = 5_000

@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import nacholab.frame.data.GalleryItem
+import nacholab.frame.server.domain.model.GalleryItem
 import nacholab.frame.utils.MetadataTools
 import java.text.SimpleDateFormat
 

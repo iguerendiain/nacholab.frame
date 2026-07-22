@@ -1,4 +1,4 @@
-package nacholab.frame.usecases
+package nacholab.frame.server.domain.usecase
 
 import android.content.Intent
 import android.net.Uri

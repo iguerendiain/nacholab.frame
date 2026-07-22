@@ -12,7 +12,7 @@ private val ServerConfigJson = Json { ignoreUnknownKeys = true }
 
 /**
  * Single source of truth for [ServerConfig]'s wire/storage representation, shared by local
- * persistence ([nacholab.frame.data.repository.ServerConfigRepositoryImpl]) and network transport
+ * persistence ([nacholab.frame.server.data.repository.ServerConfigRepositorySP]) and network transport
  * (the fullClient -> server socket exchange), so both always agree on the same JSON shape.
  */
 fun ServerConfig.toJson(): String = ServerConfigJson.encodeToString(toDto())

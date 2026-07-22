@@ -14,7 +14,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,17 +32,16 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import nacholab.frame.R
-import nacholab.frame.data.GalleryItem
-import nacholab.frame.data.MainGalleryDecoration
+import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.server.ui.models.MainGalleryDecoration
 import nacholab.frame.server.ui.composables.MainGalleryDecorations
 import nacholab.frame.server.ui.composables.MainGalleryPager
 import nacholab.frame.server.ui.composables.MainGalleryUI
 import nacholab.frame.server.ui.composables.NextPageAfterTimeout
 import nacholab.frame.server.ui.composables.SleepModeEffect
 import nacholab.frame.server.ui.composables.VideoPlaybackControlEffect
-import nacholab.frame.utils.BrightnessUtils
-import nacholab.frame.utils.buildPlayer
-import java.time.LocalTime
+import nacholab.frame.ui.utils.BrightnessUtils
+import nacholab.frame.ui.utils.buildPlayer
 
 @Composable
 fun MainGallery(

@@ -6,7 +6,7 @@ import nacholab.frame.fullclient.domain.model.ConnectionConfig
 import nacholab.frame.fullclient.domain.repository.ConnectionConfigRepository
 import javax.inject.Inject
 
-class ConnectionConfigRepositoryImpl @Inject constructor(
+class ConnectionConfigRepositorySP @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ConnectionConfigRepository {
 

@@ -4,10 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import nacholab.frame.fullclient.data.repository.ConnectionConfigRepositoryImpl
-import nacholab.frame.fullclient.data.repository.RemoteReceptorClientRepositoryImpl
+import nacholab.frame.fullclient.data.repository.ConnectionConfigRepositorySP
+import nacholab.frame.fullclient.data.repository.RemoteControlClientRepositorySocket
 import nacholab.frame.fullclient.domain.repository.ConnectionConfigRepository
-import nacholab.frame.fullclient.domain.repository.RemoteReceptorClientRepository
+import nacholab.frame.fullclient.domain.repository.RemoteControlClientRepository
 import javax.inject.Singleton
 
 @Module
@@ -17,13 +17,13 @@ abstract class FullClientModule {
     @Binds
     @Singleton
     abstract fun bindConnectionConfigRepository(
-        impl: ConnectionConfigRepositoryImpl
+        impl: ConnectionConfigRepositorySP
     ): ConnectionConfigRepository
 
     @Binds
     @Singleton
     abstract fun bindRemoteReceptorClientRepository(
-        impl: RemoteReceptorClientRepositoryImpl
-    ): RemoteReceptorClientRepository
+        impl: RemoteControlClientRepositorySocket
+    ): RemoteControlClientRepository
 
 }

@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import nacholab.frame.fullclient.ui.common.components.FullClientHeader
 import nacholab.frame.theme.NacholabFrameTheme
-import nacholab.frame.utils.withoutTop
+import nacholab.frame.ui.utils.withoutTop
 
 @Composable
 fun ConnectionScreen(

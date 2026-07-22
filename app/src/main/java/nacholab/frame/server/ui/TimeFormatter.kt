@@ -1,4 +1,4 @@
-package nacholab.frame.utils
+package nacholab.frame.server.ui
 
 import android.annotation.SuppressLint
 import kotlin.math.floor

@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import nacholab.frame.data.GalleryItem
-import nacholab.frame.data.MainGalleryDecoration
+import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.server.ui.models.MainGalleryDecoration
 import nacholab.frame.server.ui.composables.decorations.MainGalleryDecorationCurrentTime
 import nacholab.frame.server.ui.composables.decorations.MainGalleryDecorationMediaInfo
 import nacholab.frame.server.ui.composables.decorations.MainGalleryDecorationMessage
-import nacholab.frame.utils.TimeFormatter
+import nacholab.frame.server.ui.TimeFormatter
 import java.text.SimpleDateFormat
 
 @SuppressLint("SimpleDateFormat")

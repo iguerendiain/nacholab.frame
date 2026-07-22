@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.ExoPlayer
-import nacholab.frame.utils.buildPlayer
+import nacholab.frame.ui.utils.buildPlayer
 
 @Composable
 fun GalleryItemVideoComposable(

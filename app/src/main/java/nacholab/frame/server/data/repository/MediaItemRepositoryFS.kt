@@ -1,12 +1,13 @@
-package nacholab.frame.domain.repository
+package nacholab.frame.server.data.repository
 
 import androidx.documentfile.provider.DocumentFile
-import nacholab.frame.data.GalleryItem
+import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.server.domain.repository.MediaItemRepository
 
-class MediaItemRepository {
+class MediaItemRepositoryFS: MediaItemRepository {
 
     private val mediaItems: ArrayList<GalleryItem> = arrayListOf()
-    fun buildMediaGalleryItems(documentDir: DocumentFile){
+    override fun buildMediaGalleryItems(documentDir: DocumentFile){
         return documentDir
             .listFiles()
             .forEach {
@@ -33,6 +34,6 @@ class MediaItemRepository {
             }
     }
 
-    fun getCurrentMediaItems() = mediaItems
+    override fun getCurrentMediaItems() = mediaItems
 
 }

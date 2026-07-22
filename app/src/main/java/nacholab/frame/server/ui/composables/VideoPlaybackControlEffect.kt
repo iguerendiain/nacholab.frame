@@ -8,10 +8,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import nacholab.frame.data.GalleryItem
+import nacholab.frame.server.domain.model.GalleryItem
 
 @Composable
 fun VideoPlaybackControlEffect(

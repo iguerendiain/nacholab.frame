@@ -1,9 +1,9 @@
 package nacholab.frame.server.ui
 
-import nacholab.frame.data.GalleryItem
-import nacholab.frame.data.LoadingState
-import nacholab.frame.data.MainGalleryDecoration
-import nacholab.frame.data.MainGalleryDecoration.Position
+import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.ui.model.LoadingState
+import nacholab.frame.server.ui.models.MainGalleryDecoration
+import nacholab.frame.server.ui.models.MainGalleryDecoration.Position
 
 data class ServerAppState(
     val loadingState: LoadingState,

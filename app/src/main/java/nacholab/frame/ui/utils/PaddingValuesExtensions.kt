@@ -1,4 +1,4 @@
-package nacholab.frame.utils
+package nacholab.frame.ui.utils
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
