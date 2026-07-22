@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
@@ -78,6 +79,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
+
+    implementation(libs.kotlinx.serialization.json)
 
     implementation("io.github.anilbeesetti:nextlib-media3ext:1.10.1-0.13.0")
     implementation("androidx.exifinterface:exifinterface:1.3.7")
