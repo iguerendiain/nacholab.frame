@@ -1,10 +1,15 @@
 package nacholab.frame.server.data.repository
 
+import android.content.Context
 import androidx.documentfile.provider.DocumentFile
 import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.server.domain.model.GalleryItemMetadata
 import nacholab.frame.server.domain.repository.MediaItemRepository
+import nacholab.frame.utils.MetadataTools
 
-class MediaItemRepositoryFS: MediaItemRepository {
+class MediaItemRepositoryFS(
+    private val context: Context
+): MediaItemRepository {
 
     private val mediaItems: ArrayList<GalleryItem> = arrayListOf()
     override fun buildMediaGalleryItems(documentDir: DocumentFile){
@@ -18,7 +23,8 @@ class MediaItemRepositoryFS: MediaItemRepository {
                             .add(
                                 GalleryItem.GalleryItemImage(
                                     uri = it.uri,
-                                    isRemote = false
+                                    isRemote = false,
+                                    metadata = MetadataTools.extractImageExifData(context, it.uri)?.toDomain()
                                 )
                             )
                     }
@@ -27,7 +33,8 @@ class MediaItemRepositoryFS: MediaItemRepository {
                             .add(
                                 GalleryItem.GalleryItemVideo(
                                 uri = it.uri,
-                                isRemote = false
+                                isRemote = false,
+                                metadata = MetadataTools.extractVideoMetadata(context, it.uri)?.toDomain()
                             ))
                     }
                 }
@@ -37,3 +44,10 @@ class MediaItemRepositoryFS: MediaItemRepository {
     override fun getCurrentMediaItems() = mediaItems
 
 }
+
+private fun MetadataTools.FileMetaData.toDomain() = GalleryItemMetadata(
+    date = date,
+    location = location?.let { GalleryItemMetadata.LatLng(it.lat, it.lng) },
+    description = description,
+    camera = camera
+)

@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.exifinterface.media.ExifInterface
 import java.io.InputStream
 import java.text.SimpleDateFormat
@@ -22,12 +20,6 @@ object MetadataTools {
     ){
         data class LatLng(val lat: Double, val lng: Double)
     }
-
-    @Composable
-    fun extractImageExifData(uri: Uri) = extractImageExifData(LocalContext.current, uri)
-
-    @Composable
-    fun extractVideoMetadata(uri: Uri) = extractVideoMetadata(LocalContext.current, uri)
 
     fun extractImageExifData(context: Context, uri: Uri): FileMetaData? {
         return try{

@@ -1,10 +1,12 @@
 package nacholab.frame.server.di
 
+import android.content.Context
 import android.content.SharedPreferences
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import nacholab.frame.server.data.repository.MediaItemRepositoryFS
 import nacholab.frame.server.data.repository.ServerConfigRepositorySP
@@ -20,7 +22,7 @@ class ServerRespositoryProviders{
     fun providesSettingsRepository(sp: SharedPreferences) = SettingsRepositorySP(sp)
 
     @Provides
-    fun providesMediaItemsRepository() = MediaItemRepositoryFS()
+    fun providesMediaItemsRepository(@ApplicationContext context: Context) = MediaItemRepositoryFS(context)
 
 }
 
