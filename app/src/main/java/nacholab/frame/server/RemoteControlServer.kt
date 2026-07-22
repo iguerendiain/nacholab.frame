@@ -7,8 +7,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerializationException
-import nacholab.frame.data.serialization.toServerConfig
-import nacholab.frame.domain.model.ServerConfig
+import nacholab.frame.data.serialization.toServerMessage
+import nacholab.frame.domain.model.ServerMessage
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.ServerSocket
@@ -19,7 +19,7 @@ class RemoteControlServer @Inject constructor() {
     private var serverSocket: ServerSocket? = null
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    var onServerConfigReceived: ((ServerConfig) -> Unit)? = null
+    var onMessageReceived: ((ServerMessage) -> Unit)? = null
 
     fun startServer(){
         scope.launch {
@@ -39,15 +39,15 @@ class RemoteControlServer @Inject constructor() {
     private fun handleClient(socket: Socket?) {
         socket?.use { client ->
             val reader = BufferedReader(InputStreamReader(client.getInputStream()))
-            val message = reader.readLine() ?: return
+            val line = reader.readLine() ?: return
 
-            val config = try {
-                message.toServerConfig()
+            val message = try {
+                line.toServerMessage()
             } catch (e: SerializationException) {
                 return
             }
 
-            onServerConfigReceived?.invoke(config)
+            onMessageReceived?.invoke(message)
         }
     }
 

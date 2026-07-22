@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
+import nacholab.frame.domain.model.ServerMessage
 import nacholab.frame.ui.model.LoadingState
 import nacholab.frame.server.ui.MainGallery
 import nacholab.frame.server.ui.ServerAppActions
@@ -40,8 +41,13 @@ class ServerActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         remoteControlServer.startServer()
-        remoteControlServer.onServerConfigReceived = { config ->
-            vm.onAction(ServerAppActions.ReceiveServerConfig(config))
+        remoteControlServer.onMessageReceived = { message ->
+            when (message) {
+                is ServerMessage.SendConfig -> vm.onAction(ServerAppActions.ReceiveServerConfig(message.payload))
+                is ServerMessage.GetConfig -> Unit
+                is ServerMessage.GetConfigResponse -> Unit
+                ServerMessage.ReloadPlaylist -> Unit
+            }
         }
     }
 

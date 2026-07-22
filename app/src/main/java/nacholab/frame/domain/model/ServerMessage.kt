@@ -1,14 +1,13 @@
 package nacholab.frame.domain.model
 
-data class ServerMessage<T>(
-    val type: MessageType,
-    val payload: T?
-){
-    enum class MessageType {
-        SEND_CONFIG,
-        GET_CONFIG,
-        GET_CONFIG_RESPONSE,
-        RELOAD_PLAYLIST
-    }
+sealed class ServerMessage {
+
+    data class SendConfig(val payload: ServerConfig) : ServerMessage()
+
+    data class GetConfig(val payload: ServerConfig) : ServerMessage()
+
+    data class GetConfigResponse(val payload: ServerConfig) : ServerMessage()
+
+    data object ReloadPlaylist : ServerMessage()
 
 }
