@@ -15,22 +15,20 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import nacholab.frame.server.domain.model.GalleryItem
+import nacholab.frame.domain.model.ServerConfig
+import nacholab.frame.fullclient.ui.mainconfig.MainConfigMapper.buildFrom
 import nacholab.frame.ui.model.LoadingState
 import nacholab.frame.server.domain.repository.MediaItemRepository
 import nacholab.frame.server.domain.repository.SettingsRepository
-import nacholab.frame.server.domain.usecase.SaveServerConfigUseCase
 import nacholab.frame.server.ui.ServerAppActions.*
 import nacholab.frame.server.domain.usecase.RequestDirToUserUseCase
 import java.time.LocalTime
 import javax.inject.Inject
-import kotlin.random.Random
 
 @HiltViewModel
 class ServerAppViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val mediaItemRepository: MediaItemRepository,
-    private val saveServerConfigUseCase: SaveServerConfigUseCase,
 ): ViewModel(){
 
     private val _state = MutableStateFlow(ServerAppState.DEFAULT)
@@ -38,7 +36,6 @@ class ServerAppViewModel @Inject constructor(
 
     private val _uiEventBus = MutableSharedFlow<ServerAppUIEvents>(extraBufferCapacity = 1)
     val uiEventBus: SharedFlow<ServerAppUIEvents> = _uiEventBus.asSharedFlow()
-
 
     fun onAction(action: ServerAppActions){
         when (action){
@@ -53,7 +50,37 @@ class ServerAppViewModel @Inject constructor(
             Sleep -> setSleepMode(true)
             Wakeup -> setSleepMode(false)
             StartMinuteClock -> startMinuteClock()
-            is ReceiveServerConfig -> saveServerConfigUseCase(action.config)
+            is ReceiveServerConfig -> updateServerConfig(action.config)
+            is SetServerPort -> _state.update { it.copy(currentPort = action.port) }
+            is SetServerHost -> _state.update { it.copy(currentHost = action.host) }
+        }
+    }
+
+    private fun updateServerConfig(serverConfig: ServerConfig){
+        _state.update {
+            it.copy(
+                sleepFrom = serverConfig.sleepTimerFrom,
+                sleepTo = serverConfig.sleepTimerTo,
+                decorations = serverConfig.decorations.map { d -> buildFrom(d) },
+                mainUIHideType = serverConfig.mainUI.hideType,
+                mainUIHideTimeout = serverConfig.mainUI.hideTimeout,
+                imageTimeout = serverConfig.mediaItemTime,
+                rebuildMediaLibraryAfterPlaylistFinish = serverConfig.reshuffleAfterPlaylistFinish,
+                imageScaling = buildFrom(serverConfig.imageScaling),
+                videoScaling = buildFrom(serverConfig.videoScaling)
+            )
+        }
+
+        val currentSortType = state.value.currentSortingType
+        val currentDirSortType = state.value.currentDirSortingType
+        val newSortType = serverConfig.sortType
+        val newDirSortType = serverConfig.dirSortType
+        val shouldReload = currentSortType!=newSortType || currentDirSortType!=newDirSortType
+
+        if (shouldReload){
+            viewModelScope.launch(Dispatchers.IO){
+                _uiEventBus.emit(ServerAppUIEvents.RequestReload)
+            }
         }
     }
 
@@ -73,7 +100,7 @@ class ServerAppViewModel @Inject constructor(
 
         if (sleepMode!=currentlySleeping) {
             _state.update { it.copy(sleepMode = sleepMode) }
-            onAction(ServerAppActions.SetPlaying(!sleepMode))
+            onAction(SetPlaying(!sleepMode))
         }
     }
 
@@ -91,44 +118,25 @@ class ServerAppViewModel @Inject constructor(
             }
 
             withContext(Dispatchers.IO) {
-
                 settingsRepository.saveFolderUri(rootDirDocument?.uri?.toString())
+                rootDirDocument?.let {
+                    val fileSort = state.value.currentSortingType
+                    val dirSort = state.value.currentDirSortingType
 
-                rootDirDocument?.let { mediaItemRepository.buildMediaGalleryItems(it) }
-
-                val videos = mediaItemRepository.getCurrentMediaItems()
-                    .filterIsInstance<GalleryItem.GalleryItemVideo>()
-                val images = mediaItemRepository.getCurrentMediaItems()
-                    .filterIsInstance<GalleryItem.GalleryItemImage>()
-
-//                val mediaItems = ArrayList<GalleryItem>()
-//                    .apply {
-//                        add(videos.random())
-//                        ArrayList<GalleryItem>().apply {
-//                            addAll(videos)
-//                            addAll(images)
-//                        }
-//                            .toList()
-//                            .sortedBy { Random.nextInt() }
-//                            .let { addAll(it) }
-//                    }
-
-                val mediaItems = ArrayList<GalleryItem>()
-                    .apply {
-                        addAll(videos)
-                        addAll(images)
+                    if (dirSort == ServerConfig.ServerConfigSorting.IGNORE) {
+                        mediaItemRepository.buildMediaGalleryItemsNoDirSorted(it, fileSort)
+                    }else{
+                        mediaItemRepository.buildMediaGalleryItemsDirSorted(it, dirSort, fileSort)
                     }
-                    .toList()
-                    .sortedBy { Random.nextInt() }
+                }
 
                 _state.update {
                     it.copy(
                         loadingState = LoadingState.Success,
-                        currentGallery = mediaItems
+                        currentGallery = mediaItemRepository.getCurrentMediaItems()
                     )
                 }
             }
         }
     }
-
 }

@@ -19,16 +19,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import nacholab.frame.domain.model.ServerMessage
+import nacholab.frame.server.domain.usecase.GetServerConfigUseCase
+import nacholab.frame.server.domain.usecase.SaveServerConfigUseCase
 import nacholab.frame.ui.model.LoadingState
 import nacholab.frame.server.ui.MainGallery
 import nacholab.frame.server.ui.ServerAppActions
+import nacholab.frame.server.ui.ServerAppUIEvents
 import nacholab.frame.server.ui.ServerAppViewModel
 import nacholab.frame.ui.utils.BrightnessLaunchEffect
 import nacholab.frame.ui.utils.BrightnessUtils
 import nacholab.frame.ui.utils.FullscreenEffect
+import nacholab.frame.utils.NetworkUtils
 import javax.inject.Inject
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class ServerActivity : ComponentActivity() {
@@ -38,12 +47,24 @@ class ServerActivity : ComponentActivity() {
     @Inject
     lateinit var remoteControlServer: RemoteControlServer
 
+    @Inject
+    lateinit var saveServerConfigUseCase: SaveServerConfigUseCase
+
+    @Inject
+    lateinit var getServerConfigUseCase: GetServerConfigUseCase
+
+
     override fun onResume() {
         super.onResume()
-        remoteControlServer.startServer()
+        val port = Random.nextInt(4747,84747)
+        vm.onAction(ServerAppActions.SetServerPort(port))
+        remoteControlServer.startServer(port)
         remoteControlServer.onMessageReceived = { message ->
             when (message) {
-                is ServerMessage.SendConfig -> vm.onAction(ServerAppActions.ReceiveServerConfig(message.payload))
+                is ServerMessage.SendConfig -> {
+                    saveServerConfigUseCase(message.payload)
+                    vm.onAction(ServerAppActions.ReceiveServerConfig(message.payload))
+                }
                 is ServerMessage.GetConfig -> Unit
                 is ServerMessage.GetConfigResponse -> Unit
                 ServerMessage.ReloadPlaylist -> Unit
@@ -58,10 +79,35 @@ class ServerActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                vm.uiEventBus.collect { event ->
+                    when (event) {
+                        ServerAppUIEvents.RequestReload -> vm.onAction(ServerAppActions.LoadMedia(this@ServerActivity))
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                NetworkUtils.currentIpAddress(this@ServerActivity).collect { ip ->
+                    vm.onAction(ServerAppActions.SetServerHost(ip ?: "localhost"))
+                }
+            }
+        }
+
+        getServerConfigUseCase()?.let { vm.onAction(ServerAppActions.ReceiveServerConfig(it)) }
+
         vm.onAction(ServerAppActions.LoadMedia(this))
         vm.onAction(ServerAppActions.SetBrightness(BrightnessUtils.getScreenBrightness(this)))
         vm.onAction(ServerAppActions.StartMinuteClock)
 
+        mainContent()
+    }
+
+    private fun mainContent(){
         enableEdgeToEdge()
         setContent {
             val state by vm.state.collectAsState()
@@ -71,14 +117,14 @@ class ServerActivity : ComponentActivity() {
 
             MaterialTheme {
                 Box(
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .fillMaxSize()
                         .background(Black),
-                    contentAlignment = Alignment.Companion.Center
+                    contentAlignment = Alignment.Center
                 ) {
                     when (state.loadingState) {
                         LoadingState.Loading -> CircularProgressIndicator(
-                            modifier = Modifier.Companion.size(
+                            modifier = Modifier.size(
                                 72.dp
                             ), color = White
                         )
@@ -100,7 +146,7 @@ class ServerActivity : ComponentActivity() {
                             mediaList = state.currentGallery,
                             imageTimeout = 3,
                             currentBrightness = state.brightness,
-                            isPlaying = true,//state.isPlaying,
+                            isPlaying = state.isPlaying,
                             isMuted = state.isMuted,
                             currentVolume = state.volume,
                             sleepMode = state.sleepMode,

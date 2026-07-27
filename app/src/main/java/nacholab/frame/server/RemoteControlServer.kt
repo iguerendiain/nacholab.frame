@@ -21,10 +21,10 @@ class RemoteControlServer @Inject constructor() {
 
     var onMessageReceived: ((ServerMessage) -> Unit)? = null
 
-    fun startServer(){
+    fun startServer(port: Int){
         scope.launch {
             try {
-                serverSocket = ServerSocket(47047)
+                serverSocket = ServerSocket(port)
 
                 while (isActive) {
                     val clientSocket = serverSocket?.accept()

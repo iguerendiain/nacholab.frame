@@ -17,5 +17,7 @@ sealed class ServerAppActions {
     object Wakeup: ServerAppActions()
     object StartMinuteClock: ServerAppActions()
     class ReceiveServerConfig(val config: ServerConfig): ServerAppActions()
+    class SetServerPort(val port: Int): ServerAppActions()
+    class SetServerHost(val host: String): ServerAppActions()
 
 }

@@ -1,5 +1,8 @@
 package nacholab.frame.server.ui
 
+import androidx.compose.ui.layout.ContentScale
+import nacholab.frame.domain.model.ServerConfig
+import nacholab.frame.domain.model.ServerConfigMainUI
 import nacholab.frame.server.domain.model.GalleryItem
 import nacholab.frame.ui.model.LoadingState
 import nacholab.frame.server.ui.models.MainGalleryDecoration
@@ -19,6 +22,16 @@ data class ServerAppState(
     val ampm: Boolean,
     val minuteClock: Int,
     val decorations: List<MainGalleryDecoration>,
+    val mainUIHideType: ServerConfigMainUI.ServerConfigMainUIHideType,
+    val mainUIHideTimeout: Int,
+    val imageTimeout: Int,
+    val rebuildMediaLibraryAfterPlaylistFinish: Boolean,
+    val imageScaling: ContentScale,
+    val videoScaling: ContentScale,
+    val currentSortingType: ServerConfig.ServerConfigSorting,
+    val currentDirSortingType: ServerConfig.ServerConfigSorting,
+    val currentHost: String,
+    val currentPort: Int
 ){
     companion object{
         val DEFAULT = ServerAppState(
@@ -92,7 +105,17 @@ data class ServerAppState(
                     timeTakenFormat = DEMO_TIME_FORMAT,
                     dateTakenFormat = DEMO_DATE_FORMAT
                 )
-            )
+            ),
+            mainUIHideType = ServerConfigMainUI.ServerConfigMainUIHideType.TIMEOUT,
+            mainUIHideTimeout = 5,
+            imageTimeout = 5,
+            rebuildMediaLibraryAfterPlaylistFinish = true,
+            imageScaling = ContentScale.Crop,
+            videoScaling = ContentScale.Fit,
+            currentSortingType = ServerConfig.ServerConfigSorting.DATE,
+            currentDirSortingType = ServerConfig.ServerConfigSorting.IGNORE,
+            currentHost = "localhost",
+            currentPort = -1
         )
     }
 }

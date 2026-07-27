@@ -132,8 +132,7 @@ fun MainGallery(
     val mediaItem = mediaList[currentPage]
     val isVideo = mediaItem is GalleryItem.GalleryItemVideo
     val isVisible = isVideo && !pagerState.isScrollInProgress
-    if (isVisible)
-    ContentFrame(
+    if (isVisible) ContentFrame(
         player = exoPlayer,
         modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.Fit,
