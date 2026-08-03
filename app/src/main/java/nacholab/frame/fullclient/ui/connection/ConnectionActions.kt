@@ -8,4 +8,6 @@ sealed class ConnectionActions {
 
     object Connect : ConnectionActions()
 
+    data class QrCodeScanned(val rawValue: String) : ConnectionActions()
+
 }

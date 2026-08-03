@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import nacholab.frame.fullclient.domain.model.ConnectionConfig
+import nacholab.frame.fullclient.domain.usecase.ParseConnectionUriUseCase
 import nacholab.frame.fullclient.domain.usecase.SaveConnectionConfigUseCase
 import nacholab.frame.fullclient.domain.usecase.ValidateHostUseCase
 import nacholab.frame.fullclient.domain.usecase.ValidatePortUseCase
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class ConnectionViewModel @Inject constructor(
     private val saveConnectionConfigUseCase: SaveConnectionConfigUseCase,
     private val validateHostUseCase: ValidateHostUseCase,
-    private val validatePortUseCase: ValidatePortUseCase
+    private val validatePortUseCase: ValidatePortUseCase,
+    private val parseConnectionUriUseCase: ParseConnectionUriUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ConnectionState.DEFAULT)
@@ -40,6 +42,8 @@ class ConnectionViewModel @Inject constructor(
             }
 
             ConnectionActions.Connect -> connect()
+
+            is ConnectionActions.QrCodeScanned -> onQrCodeScanned(action.rawValue)
         }
     }
 
@@ -53,12 +57,36 @@ class ConnectionViewModel @Inject constructor(
             return
         }
 
+        saveConfigAndNavigate(
+            ConnectionConfig(host = currentState.host, port = currentState.port.toInt())
+        )
+    }
+
+    private fun onQrCodeScanned(rawValue: String) {
+        val config = parseConnectionUriUseCase(rawValue)
+        if (config == null) {
+            _state.update { it.copy(qrError = true) }
+            return
+        }
+
+        _state.update {
+            it.copy(
+                host = config.host,
+                port = config.port.toString(),
+                hostError = false,
+                portError = false,
+                qrError = false
+            )
+        }
+
+        saveConfigAndNavigate(config)
+    }
+
+    private fun saveConfigAndNavigate(config: ConnectionConfig) {
         _state.update { it.copy(isSaving = true) }
 
         viewModelScope.launch {
-            saveConnectionConfigUseCase(
-                ConnectionConfig(host = currentState.host, port = currentState.port.toInt())
-            )
+            saveConnectionConfigUseCase(config)
             _state.update { it.copy(isSaving = false) }
             _uiEventBus.emit(ConnectionUiEvents.NavigateToMainConfig)
         }
