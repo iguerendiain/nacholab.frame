@@ -85,5 +85,6 @@ dependencies {
     implementation("io.github.anilbeesetti:nextlib-media3ext:1.10.1-0.13.0")
     implementation("androidx.exifinterface:exifinterface:1.3.7")
     implementation("io.github.alexzhirkevich:qrose:1.1.2")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
 }

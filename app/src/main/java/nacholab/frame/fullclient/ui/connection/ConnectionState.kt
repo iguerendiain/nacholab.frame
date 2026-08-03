@@ -5,7 +5,8 @@ data class ConnectionState(
     val port: String,
     val hostError: Boolean,
     val portError: Boolean,
-    val isSaving: Boolean
+    val isSaving: Boolean,
+    val qrError: Boolean
 ) {
     val isFormValid: Boolean
         get() = host.isNotBlank() && port.isNotBlank() && !hostError && !portError
@@ -16,7 +17,8 @@ data class ConnectionState(
             port = "",
             hostError = false,
             portError = false,
-            isSaving = false
+            isSaving = false,
+            qrError = false
         )
     }
 }

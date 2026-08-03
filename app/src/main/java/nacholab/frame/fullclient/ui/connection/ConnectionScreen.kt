@@ -1,5 +1,6 @@
 package nacholab.frame.fullclient.ui.connection
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,6 +22,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import kotlinx.coroutines.flow.collectLatest
 import nacholab.frame.fullclient.ui.common.components.FullClientHeader
 import nacholab.frame.theme.NacholabFrameTheme
@@ -32,6 +36,10 @@ fun ConnectionScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    val scanQrLauncher = rememberLauncherForActivityResult(ScanContract()) { result ->
+        result.contents?.let { viewModel.onAction(ConnectionActions.QrCodeScanned(it)) }
+    }
+
     LaunchedEffect(Unit) {
         viewModel.uiEventBus.collectLatest { event ->
             when (event) {
@@ -42,14 +50,23 @@ fun ConnectionScreen(
 
     ConnectionScreenContent(
         state = state,
-        onAction = viewModel::onAction
+        onAction = viewModel::onAction,
+        onScanQrCode = {
+            scanQrLauncher.launch(
+                ScanOptions()
+                    .setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+                    .setOrientationLocked(false)
+                    .setBeepEnabled(false)
+            )
+        }
     )
 }
 
 @Composable
 private fun ConnectionScreenContent(
     state: ConnectionState,
-    onAction: (ConnectionActions) -> Unit
+    onAction: (ConnectionActions) -> Unit,
+    onScanQrCode: () -> Unit
 ) {
     Scaffold { paddingValues ->
         Column(
@@ -100,6 +117,22 @@ private fun ConnectionScreenContent(
                 ) {
                     Text(if (state.isSaving) "Connecting..." else "Connect")
                 }
+
+                OutlinedButton(
+                    onClick = onScanQrCode,
+                    enabled = !state.isSaving,
+                    shape = MaterialTheme.shapes.small,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Scan QR code")
+                }
+
+                if (state.qrError) {
+                    Text(
+                        text = "That QR code isn't a valid Nacholab Frame connection code",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
             }
         }
     }
@@ -111,7 +144,8 @@ private fun ConnectionScreenContentPreview() {
     NacholabFrameTheme {
         ConnectionScreenContent(
             state = ConnectionState.DEFAULT,
-            onAction = {}
+            onAction = {},
+            onScanQrCode = {}
         )
     }
 }
