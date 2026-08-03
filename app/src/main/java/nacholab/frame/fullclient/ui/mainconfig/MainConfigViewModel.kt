@@ -3,6 +3,7 @@ package nacholab.frame.fullclient.ui.mainconfig
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 import nacholab.frame.domain.model.ServerConfig
 import nacholab.frame.domain.model.ServerConfigDecoration
 import nacholab.frame.domain.model.ServerConfigMainUI
+import nacholab.frame.fullclient.data.repository.RemoteControlClientRepositorySocket
 import nacholab.frame.fullclient.domain.usecase.ClearConnectionConfigUseCase
 import nacholab.frame.fullclient.domain.usecase.GetConnectionConfigUseCase
 import javax.inject.Inject
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainConfigViewModel @Inject constructor(
     private val getConnectionConfigUseCase: GetConnectionConfigUseCase,
-    private val clearConnectionConfigUseCase: ClearConnectionConfigUseCase
+    private val clearConnectionConfigUseCase: ClearConnectionConfigUseCase,
+    private val remoteControlClientRepositorySocket: RemoteControlClientRepositorySocket
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainConfigState.DEFAULT)
@@ -134,6 +137,15 @@ class MainConfigViewModel @Inject constructor(
 
     private fun saveSettings() {
         val serverConfig = MainConfigMapper.buildFrom(state.value)
+        val conn = getConnectionConfigUseCase()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            remoteControlClientRepositorySocket.sendServerConfig(
+                config = serverConfig,
+                host = conn?.host.orEmpty(),
+                port = conn?.port?:-1
+            )
+        }
     }
 
     private fun changeServer() {

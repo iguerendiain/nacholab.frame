@@ -48,12 +48,23 @@ class ServerAppViewModel @Inject constructor(
             ToggleMuted -> onAction(SetMuted(!state.value.isMuted))
             TogglePlaying -> onAction(SetPlaying(!state.value.isPlaying))
             Sleep -> setSleepMode(true)
+            ShowRemoteInfo -> showRemoteInfo()
+            HideRemoteInfo -> hideRemoteInfo()
             Wakeup -> setSleepMode(false)
             StartMinuteClock -> startMinuteClock()
             is ReceiveServerConfig -> updateServerConfig(action.config)
             is SetServerPort -> _state.update { it.copy(currentPort = action.port) }
             is SetServerHost -> _state.update { it.copy(currentHost = action.host) }
+
         }
+    }
+
+    private fun hideRemoteInfo(){
+        _state.update { it.copy(remoteInfoVisible = false) }
+    }
+
+    private fun showRemoteInfo(){
+        _state.update { it.copy(remoteInfoVisible = true) }
     }
 
     private fun updateServerConfig(serverConfig: ServerConfig){

@@ -9,7 +9,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.media3.common.C
 import androidx.media3.ui.compose.ContentFrame
 import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
@@ -38,6 +43,7 @@ import nacholab.frame.server.ui.composables.MainGalleryDecorations
 import nacholab.frame.server.ui.composables.MainGalleryPager
 import nacholab.frame.server.ui.composables.MainGalleryUI
 import nacholab.frame.server.ui.composables.NextPageAfterTimeout
+import nacholab.frame.server.ui.composables.RemoteInfo
 import nacholab.frame.server.ui.composables.SleepModeEffect
 import nacholab.frame.server.ui.composables.VideoPlaybackControlEffect
 import nacholab.frame.ui.utils.BrightnessUtils
@@ -57,6 +63,9 @@ fun MainGallery(
     ampm: Boolean,
     currentMinute: Int,
     decorations: List<MainGalleryDecoration>,
+    remoteInfoVisible: Boolean,
+    currentHost: String,
+    currentPort: Int,
     onAction: (ServerAppActions) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = { mediaList.size })
@@ -211,6 +220,7 @@ fun MainGallery(
                 onAction(ServerAppActions.SetBrightness(it))
             },
             sleep = { onAction(ServerAppActions.Sleep) },
+            remoteInfo = { onAction(ServerAppActions.ShowRemoteInfo) },
             previousPage = {
                 showOverlayAndResetTimer()
                 coroutineScope2.launch {
@@ -239,6 +249,17 @@ fun MainGallery(
     if (sleepMode){
         Box(modifier = Modifier.fillMaxSize().background(Color.Black).clickable{ onAction(ServerAppActions.Wakeup)})
     }
+
+
+    if (remoteInfoVisible) RemoteInfo(
+        currentHost = currentHost,
+        currentPort = currentPort,
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(vertical = 72.dp)
+            .width(400.dp)
+            .clickable { onAction(ServerAppActions.HideRemoteInfo) }
+    )
 }
 
 @Preview(
@@ -265,6 +286,9 @@ private fun MainGalleryPreview() {
         ampm = true,
         currentMinute = 934,
         decorations = emptyList(),
-        onAction = {}
+        onAction = {},
+        remoteInfoVisible = false,
+        currentHost = "",
+        currentPort = 22
     )
 }

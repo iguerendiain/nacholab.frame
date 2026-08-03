@@ -14,6 +14,8 @@ sealed class ServerAppActions {
     object TogglePlaying: ServerAppActions()
     class SetVideoPosition(val position: Float): ServerAppActions()
     object Sleep: ServerAppActions()
+    object ShowRemoteInfo: ServerAppActions()
+    object HideRemoteInfo: ServerAppActions()
     object Wakeup: ServerAppActions()
     object StartMinuteClock: ServerAppActions()
     class ReceiveServerConfig(val config: ServerConfig): ServerAppActions()

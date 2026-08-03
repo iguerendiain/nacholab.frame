@@ -31,7 +31,8 @@ data class ServerAppState(
     val currentSortingType: ServerConfig.ServerConfigSorting,
     val currentDirSortingType: ServerConfig.ServerConfigSorting,
     val currentHost: String,
-    val currentPort: Int
+    val currentPort: Int,
+    val remoteInfoVisible: Boolean
 ){
     companion object{
         val DEFAULT = ServerAppState(
@@ -115,7 +116,8 @@ data class ServerAppState(
             currentSortingType = ServerConfig.ServerConfigSorting.DATE,
             currentDirSortingType = ServerConfig.ServerConfigSorting.IGNORE,
             currentHost = "localhost",
-            currentPort = -1
+            currentPort = -1,
+            remoteInfoVisible = false
         )
     }
 }

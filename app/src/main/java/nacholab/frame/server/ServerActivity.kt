@@ -156,6 +156,9 @@ class ServerActivity : ComponentActivity() {
                             decorations = state.decorations,
                             currentMinute = state.minuteClock,
                             onAction = vm::onAction,
+                            remoteInfoVisible = state.remoteInfoVisible,
+                            currentHost = state.currentHost,
+                            currentPort = state.currentPort,
                         )
                     }
                 }

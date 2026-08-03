@@ -43,6 +43,7 @@ fun MainGalleryUI(
     toggleMute: () -> Unit,
     changeVolume: (volume: Float) -> Unit,
     changeBrightness: (brightness: Float) -> Unit,
+    remoteInfo: () -> Unit,
     sleep: () -> Unit,
     currentTimeMinutes: Int,
     ampm: Boolean,
@@ -85,6 +86,16 @@ fun MainGalleryUI(
                 color = White,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(8.dp)
+            )
+
+            Image(
+                painter = painterResource(R.drawable.ic_remote),
+                contentDescription = "",
+                colorFilter = ColorFilter.tint(White),
+                modifier = Modifier
+                    .clickable { remoteInfo() }
+                    .padding(8.dp)
+                    .size(32.dp)
             )
 
             Image(
@@ -291,6 +302,7 @@ fun MainGalleryUIPreview(){
             previousPage = { },
             nextPage = { },
             sleep = { },
+            remoteInfo = { }
         )
     }
 }
